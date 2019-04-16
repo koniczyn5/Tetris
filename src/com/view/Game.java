@@ -1,12 +1,12 @@
 package com.view;
 
-import com.model.Board;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
+import java.awt.*;
 
 public class Game extends JFrame {
+
+    private final int BOARD_WIDTH = 10;
+    private final int BOARD_HEIGHT = 22;
 
     private JLabel statusbar;
 
@@ -20,9 +20,9 @@ public class Game extends JFrame {
         statusbar = new JLabel(" 0");
         add(statusbar, BorderLayout.SOUTH);
 
-        Board board = new Board(this);
+        Board_look board = new Board_look(this, BOARD_WIDTH, BOARD_HEIGHT);
         add(board);
-        board.start();
+        board.getBoard().start();
 
         setTitle("Game");
         setSize(200, 400);

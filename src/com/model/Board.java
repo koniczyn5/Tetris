@@ -1,22 +1,17 @@
 package com.model;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.util.Timer;
-
-import java.util.TimerTask;
 import com.model.Shape.Tetrominoe;
+import com.view.Board_view_interface;
 import com.view.Game;
 
-public class Board extends JPanel {
+import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
-    private final int BOARD_WIDTH = 10;
-    private final int BOARD_HEIGHT = 22;
+public class Board {
+
+    private int BOARD_WIDTH;
+    private int BOARD_HEIGHT;
     private final int INITIAL_DELAY = 100;
     private final int PERIOD_INTERVAL = 300;
 
@@ -30,15 +25,16 @@ public class Board extends JPanel {
     private JLabel statusbar;
     private Shape curPiece;
     private Tetrominoe[] board;
+    private Board_view_interface bvi;
 
-    public Board(Game parent) {
-
-        initBoard(parent);
+    public Board(Board_view_interface parent, int board_width, int board_height) {
+        BOARD_WIDTH=board_width;
+        BOARD_HEIGHT=board_height;
+        bvi=parent;
+        initBoard(parent.getParent());
     }
 
     private void initBoard(Game parent) {
-
-        setFocusable(true);
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(),
                 INITIAL_DELAY, PERIOD_INTERVAL);
@@ -47,16 +43,7 @@ public class Board extends JPanel {
 
         statusbar = parent.getStatusBar();
         board = new Tetrominoe[BOARD_WIDTH * BOARD_HEIGHT];
-        addKeyListener(new TAdapter());
         clearBoard();
-    }
-
-    private int squareWidth() {
-        return (int) getSize().getWidth() / BOARD_WIDTH;
-    }
-
-    private int squareHeight() {
-        return (int) getSize().getHeight() / BOARD_HEIGHT;
     }
 
     private Tetrominoe shapeAt(int x, int y) {
@@ -70,7 +57,7 @@ public class Board extends JPanel {
         newPiece();
     }
 
-    private void pause() {
+    public void pause() {
 
         if (!isStarted) {
             return;
@@ -87,46 +74,7 @@ public class Board extends JPanel {
         }
     }
 
-    private void doDrawing(Graphics g) {
-
-        Dimension size = getSize();
-        int boardTop = (int) size.getHeight() - BOARD_HEIGHT * squareHeight();
-
-        for (int i = 0; i < BOARD_HEIGHT; ++i) {
-
-            for (int j = 0; j < BOARD_WIDTH; ++j) {
-
-                Tetrominoe shape = shapeAt(j, BOARD_HEIGHT - i - 1);
-
-                if (shape != Tetrominoe.NoShape) {
-
-                    drawSquare(g, 0 + j * squareWidth(),
-                            boardTop + i * squareHeight(), shape);
-                }
-            }
-        }
-
-        if (curPiece.getShape() != Tetrominoe.NoShape) {
-
-            for (int i = 0; i < 4; ++i) {
-
-                int x = curX + curPiece.x(i);
-                int y = curY - curPiece.y(i);
-                drawSquare(g, 0 + x * squareWidth(),
-                        boardTop + (BOARD_HEIGHT - y - 1) * squareHeight(),
-                        curPiece.getShape());
-            }
-        }
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-
-        super.paintComponent(g);
-        doDrawing(g);
-    }
-
-    private void dropDown() {
+    public void dropDown() {
 
         int newY = curY;
 
@@ -143,7 +91,7 @@ public class Board extends JPanel {
         pieceDropped();
     }
 
-    private void oneLineDown() {
+    public void oneLineDown() {
 
         if (!tryMove(curPiece, curX, curY - 1)) {
 
@@ -189,7 +137,7 @@ public class Board extends JPanel {
         }
     }
 
-    private boolean tryMove(Shape newPiece, int newX, int newY) {
+    public boolean tryMove(Shape newPiece, int newX, int newY) {
 
         for (int i = 0; i < 4; ++i) {
 
@@ -209,7 +157,7 @@ public class Board extends JPanel {
         curX = newX;
         curY = newY;
 
-        repaint();
+        bvi.repaint();
 
         return true;
     }
@@ -249,41 +197,14 @@ public class Board extends JPanel {
             statusbar.setText(String.valueOf(numLinesRemoved));
             isFallingFinished = true;
             curPiece.setShape(Tetrominoe.NoShape);
-            repaint();
+            bvi.repaint();
         }
-    }
-
-    private void drawSquare(Graphics g, int x, int y, //Do poprawy
-                            Tetrominoe shape) {
-
-        Color colors[] = {
-                new Color(0, 0, 0), new Color(204, 102, 102),
-                new Color(102, 204, 102), new Color(102, 102, 204),
-                new Color(204, 204, 102), new Color(204, 102, 204),
-                new Color(102, 204, 204), new Color(218, 170, 0)
-        };
-
-        Color color = colors[shape.ordinal()];
-
-        g.setColor(color);
-        g.fillRect(x + 1, y + 1, squareWidth() - 2, squareHeight() - 2);
-
-        g.setColor(color.brighter());
-        g.drawLine(x, y + squareHeight() - 1, x, y);
-        g.drawLine(x, y, x + squareWidth() - 1, y);
-
-        g.setColor(color.darker());
-        g.drawLine(x + 1, y + squareHeight() - 1,
-                x + squareWidth() - 1, y + squareHeight() - 1);
-        g.drawLine(x + squareWidth() - 1, y + squareHeight() - 1,
-                x + squareWidth() - 1, y + 1);
-
     }
 
     private void doGameCycle() {
 
         update();
-        repaint();
+        bvi.repaint();
     }
 
     private void update() {
@@ -302,55 +223,32 @@ public class Board extends JPanel {
         }
     }
 
-    private class TAdapter extends KeyAdapter {
+    public boolean isPaused() {
+        return isPaused;
+    }
 
-        @Override
-        public void keyPressed(KeyEvent e) {
+    public boolean isFallingFinished() {
+        return isFallingFinished;
+    }
 
-            System.out.println("key pressed");
+    public boolean isStarted() {
+        return isStarted;
+    }
 
-            if (!isStarted || curPiece.getShape() == Tetrominoe.NoShape) {
-                return;
-            }
+    public Shape getCurPiece() {
+        return curPiece;
+    }
 
-            int keycode = e.getKeyCode();
+    public int getCurX() {
+        return curX;
+    }
 
-            if (keycode == KeyEvent.VK_P) {
-                pause();
-                return;
-            }
+    public int getCurY() {
+        return curY;
+    }
 
-            if (isPaused) {
-                return;
-            }
-
-            switch (keycode) {
-
-                case KeyEvent.VK_LEFT:
-                    tryMove(curPiece, curX - 1, curY);
-                    break;
-
-                case KeyEvent.VK_RIGHT:
-                    tryMove(curPiece, curX + 1, curY);
-                    break;
-
-                case KeyEvent.VK_DOWN:
-                    tryMove(curPiece.rotateRight(), curX, curY);
-                    break;
-
-                case KeyEvent.VK_UP:
-                    tryMove(curPiece.rotateLeft(), curX, curY);
-                    break;
-
-                case KeyEvent.VK_SPACE:
-                    dropDown();
-                    break;
-
-                case KeyEvent.VK_D:
-                    oneLineDown();
-                    break;
-            }
-        }
+    public Tetrominoe[] getBoard() {
+        return board;
     }
 
     private class ScheduleTask extends TimerTask {
