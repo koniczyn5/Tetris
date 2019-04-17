@@ -3,6 +3,15 @@ package com.view;
 import javax.swing.*;
 import java.awt.*;
 
+//TODO: Edit main controller
+//TODO: Reverse order of components
+//TODO: Write Dropping board
+//TODO: Write Info panel, Score logic, Score controller
+//TODO: Write punishments and powers
+//TODO: Write Unit tests
+//TODO: Write Main menu
+//TODO: Rework look
+
 public class Game extends JFrame {
 
     private final int BOARD_WIDTH = 10;
