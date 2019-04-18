@@ -35,9 +35,6 @@ public class Board {
     }
 
     private void initBoard(Game parent) {
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(),
-                INITIAL_DELAY, PERIOD_INTERVAL);
 
         curPiece = new Shape();
 
@@ -55,7 +52,10 @@ public class Board {
         isStarted = true;
         clearBoard();
         numLinesRemoved=0;
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new ScheduleTask(), INITIAL_DELAY, PERIOD_INTERVAL);
         newPiece();
+        statusbar.setText(String.valueOf(numLinesRemoved));
     }
 
     public void pause() {
@@ -134,7 +134,7 @@ public class Board {
             curPiece.setShape(Tetrominoe.NoShape);
             timer.cancel();
             isStarted = false;
-            statusbar.setText("Game over");
+            statusbar.setText("Game over. Press 'R' to restart");
         }
     }
 
