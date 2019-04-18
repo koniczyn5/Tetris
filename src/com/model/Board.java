@@ -54,6 +54,7 @@ public class Board {
 
         isStarted = true;
         clearBoard();
+        numLinesRemoved=0;
         newPiece();
     }
 
