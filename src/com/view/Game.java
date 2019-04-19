@@ -3,7 +3,6 @@ package com.view;
 import javax.swing.*;
 import java.awt.*;
 
-//TODO: Edit main controller
 //TODO: Reverse order of components
 //TODO: Write Dropping board
 //TODO: Write Info panel, Score logic, Score controller
