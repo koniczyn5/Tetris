@@ -1,23 +1,24 @@
 package com.view;
 
 import com.model.Board;
+import com.model.Drop_board;
 import com.model.Shape;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Board_look extends JPanel implements Board_view_interface {
+public class Drop_board_look extends JPanel {
 
     private int BOARD_WIDTH;
     private int BOARD_HEIGHT;
-    private Board board;
+    private Drop_board board;
 
-    public Board_look(int board_width, int board_height)
+    public Drop_board_look(Board mainBoard, int board_width)
     {
         setFocusable(true);
         BOARD_WIDTH=board_width;
-        BOARD_HEIGHT=board_height;
-        board = new Board(this, board_width, board_height);
+        BOARD_HEIGHT=4;
+        board = new Drop_board(mainBoard,board_width);
     }
 
     private int squareWidth() {
@@ -95,5 +96,5 @@ public class Board_look extends JPanel implements Board_view_interface {
 
     }
 
-    public Board getBoard() {return board;}
+    public Drop_board getBoard() {return board;}
 }

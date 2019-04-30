@@ -2,9 +2,7 @@ package com.model;
 
 import com.model.Shape.Tetrominoe;
 import com.view.Board_view_interface;
-import com.view.Game;
 
-import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,10 +17,8 @@ public class Board {
     private boolean isFallingFinished = false;
     private boolean isStarted = false;
     private boolean isPaused = false;
-    private int numLinesRemoved = 0;
     private int curX = 0;
     private int curY = 0;
-    private JLabel statusbar;
     private Shape curPiece;
     private Tetrominoe[] board;
     private Board_view_interface bvi;
@@ -31,14 +27,13 @@ public class Board {
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=board_height;
         bvi=parent;
-        initBoard(parent.getParent());
+        initBoard();
     }
 
-    private void initBoard(Game parent) {
+    private void initBoard() {
 
         curPiece = new Shape();
 
-        statusbar = parent.getStatusBar();
         board = new Tetrominoe[BOARD_WIDTH * BOARD_HEIGHT];
         clearBoard();
     }
@@ -51,11 +46,9 @@ public class Board {
 
         isStarted = true;
         clearBoard();
-        numLinesRemoved=0;
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), INITIAL_DELAY, PERIOD_INTERVAL);
         newPiece();
-        statusbar.setText(String.valueOf(numLinesRemoved));
     }
 
     public void pause() {
@@ -65,14 +58,6 @@ public class Board {
         }
 
         isPaused = !isPaused;
-
-        if (isPaused) {
-
-            statusbar.setText("paused");
-        } else {
-
-            statusbar.setText(String.valueOf(numLinesRemoved));
-        }
     }
 
     public void dropDown() {
@@ -130,11 +115,24 @@ public class Board {
         curY = BOARD_HEIGHT - 1 + curPiece.minY();
 
         if (!tryMove(curPiece, curX, curY)) {
-
+            System.out.println("Game over. R to restart");
             curPiece.setShape(Tetrominoe.NoShape);
             timer.cancel();
             isStarted = false;
-            statusbar.setText("Game over. Press 'R' to restart");
+        }
+    }
+
+    public void newPiece(Shape newShape, int newX) {
+
+        curPiece=newShape;
+        curX = newX;
+        curY = BOARD_HEIGHT - 1 + curPiece.minY();
+
+        if (!tryMove(curPiece, curX, curY)) {
+            System.out.println("Game over. R to restart");
+            curPiece.setShape(Tetrominoe.NoShape);
+            timer.cancel();
+            isStarted = false;
         }
     }
 
@@ -193,9 +191,6 @@ public class Board {
         }
 
         if (numFullLines > 0) {
-
-            numLinesRemoved += numFullLines;
-            statusbar.setText(String.valueOf(numLinesRemoved));
             isFallingFinished = true;
             curPiece.setShape(Tetrominoe.NoShape);
             bvi.repaint();

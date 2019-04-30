@@ -1,5 +1,7 @@
 package com.view;
 
+import com.controller.Main_controller;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,7 +18,6 @@ public class Game extends JFrame {
     private final int BOARD_WIDTH = 10;
     private final int BOARD_HEIGHT = 22;
 
-    private JLabel statusbar;
 
     public Game() {
 
@@ -24,23 +25,14 @@ public class Game extends JFrame {
     }
 
     private void initUI() {
-
-        statusbar = new JLabel(" 0");
-        add(statusbar, BorderLayout.SOUTH);
-
-        Board_look board = new Board_look(this, BOARD_WIDTH, BOARD_HEIGHT);
-        add(board);
-        board.getBoard().start();
+        Main_controller controller = new Main_controller(this, BOARD_WIDTH, BOARD_HEIGHT);
+        controller.getBvi().getBoard().start();
 
         setTitle("Game");
-        setSize(200, 400);
+        setSize(220, 560);
+        setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-    }
-
-    public JLabel getStatusBar() {
-
-        return statusbar;
     }
 
     public static void main(String[] args) {
