@@ -96,5 +96,5 @@ public class Drop_board_look extends JPanel {
 
     }
 
-    public Drop_board getBoard() {return board;}
+    public Drop_board getDropBoard() {return board;}
 }

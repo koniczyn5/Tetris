@@ -8,52 +8,49 @@ public class Shape {
         TShape, SquareShape, LShape, MirroredLShape }
 
     private Tetrominoe pieceShape;
-    private int [][]coords;
-    private int[][][] coordsTable;
+    private int [][] coordinates;
+    private final int[][][] coordinatesTable=new int[][][] {
+            { { 0, 0 },   { 0, 0 },   { 0, 0 },   { 0, 0 } },
+            { { 0, -1 },  { 0, 0 },   { -1, 0 },  { -1, 1 } },
+            { { 0, -1 },  { 0, 0 },   { 1, 0 },   { 1, 1 } },
+            { { 0, -1 },  { 0, 0 },   { 0, 1 },   { 0, 2 } },
+            { { -1, 0 },  { 0, 0 },   { 1, 0 },   { 0, 1 } },
+            { { 0, 0 },   { 1, 0 },   { 0, 1 },   { 1, 1 } },
+            { { -1, -1 }, { 0, -1 },  { 0, 0 },   { 0, 1 } },
+            { { 1, -1 },  { 0, -1 },  { 0, 0 },   { 0, 1 } }
+    };
 
 
-    public Shape() {
+    Shape() {
 
         initShape();
     }
 
     private void initShape() {
 
-        coords = new int[4][2];
+        coordinates = new int[4][2];
         setShape(Tetrominoe.NoShape);
     }
 
-    protected void setShape(Tetrominoe shape) {
-
-        coordsTable = new int[][][] {
-                { { 0, 0 },   { 0, 0 },   { 0, 0 },   { 0, 0 } },
-                { { 0, -1 },  { 0, 0 },   { -1, 0 },  { -1, 1 } },
-                { { 0, -1 },  { 0, 0 },   { 1, 0 },   { 1, 1 } },
-                { { 0, -1 },  { 0, 0 },   { 0, 1 },   { 0, 2 } },
-                { { -1, 0 },  { 0, 0 },   { 1, 0 },   { 0, 1 } },
-                { { 0, 0 },   { 1, 0 },   { 0, 1 },   { 1, 1 } },
-                { { -1, -1 }, { 0, -1 },  { 0, 0 },   { 0, 1 } },
-                { { 1, -1 },  { 0, -1 },  { 0, 0 },   { 0, 1 } }
-        };
-
+    void setShape(Tetrominoe shape) {
         for (int i = 0; i < 4 ; i++) {
 
             for (int j = 0; j < 2; ++j) {
 
-                coords[i][j] = coordsTable[shape.ordinal()][i][j];
+                coordinates[i][j] = coordinatesTable[shape.ordinal()][i][j];
             }
         }
 
         pieceShape = shape;
     }
 
-    private void setX(int index, int x) { coords[index][0] = x; }
-    private void setY(int index, int y) { coords[index][1] = y; }
-    public int x(int index) { return coords[index][0]; }
-    public int y(int index) { return coords[index][1]; }
+    private void setX(int index, int x) { coordinates[index][0] = x; }
+    private void setY(int index, int y) { coordinates[index][1] = y; }
+    public int x(int index) { return coordinates[index][0]; }
+    public int y(int index) { return coordinates[index][1]; }
     public Tetrominoe getShape()  { return pieceShape; }
 
-    public void setRandomShape() {
+    void setRandomShape() {
 
         Random r = new Random();
         int x = Math.abs(r.nextInt()) % 7 + 1;
@@ -63,24 +60,24 @@ public class Shape {
 
     public int minX() {
 
-        int m = coords[0][0];
+        int m = coordinates[0][0];
 
         for (int i=0; i < 4; i++) {
 
-            m = Math.min(m, coords[i][0]);
+            m = Math.min(m, coordinates[i][0]);
         }
 
         return m;
     }
 
 
-    public int minY() {
+    int minY() {
 
-        int m = coords[0][1];
+        int m = coordinates[0][1];
 
         for (int i=0; i < 4; i++) {
 
-            m = Math.min(m, coords[i][1]);
+            m = Math.min(m, coordinates[i][1]);
         }
 
         return m;

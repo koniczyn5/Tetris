@@ -27,7 +27,7 @@ public class MultiKeyAdapter extends KeyAdapter {
         Keys.remove(keyCode);
     }
 
-    public boolean isInKeys(Integer key)
+    boolean isInKeys(Integer key)
     {
         return Keys.contains(key);
     }
