@@ -12,8 +12,8 @@ public class Main_controller extends MultiKeyAdapter {
 
     private final int KEYS_INITIAL_DELAY = 100;
     private final int KEYS_PERIOD_INTERVAL = 120;
-    private final int BOARD_INITIAL_DELAY = 100;
-    private final int BOARD_PERIOD_INTERVAL = 300;
+    public final int BOARD_INITIAL_DELAY = 100;
+    public final int BOARD_PERIOD_INTERVAL = 300;
     private boolean isFallingFinished = false;
     private boolean isStarted = false;
     private boolean isPaused = false;
@@ -53,7 +53,7 @@ public class Main_controller extends MultiKeyAdapter {
         boardTimer.scheduleAtFixedRate(new BoardTask(this), delay, periodInterval);
     }
 
-    public void stopBoardTimer()
+    public void cancelBoardTimer()
     {
         boardTimer.cancel();
     }
