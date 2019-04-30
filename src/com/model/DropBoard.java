@@ -43,6 +43,10 @@ public class DropBoard {
         clearBoard();
     }
 
+    public void start() {
+        
+    }
+
     public boolean tryMove(Shape newPiece, int newX, int newY) {
 
         for (int i = 0; i < 4; ++i) {
