@@ -27,9 +27,8 @@ public class Game extends JFrame {
     private void initUI() {
         Main_controller controller = new Main_controller(this, BOARD_WIDTH, BOARD_HEIGHT);
         controller.getBvi().getBoard().start();
-
         setTitle("Game");
-        setSize(220, 560);
+        setSize(215, 570);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

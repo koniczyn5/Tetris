@@ -1,5 +1,6 @@
 package com.model;
 
+import com.controller.Main_controller;
 import com.model.Shape.Tetrominoe;
 import com.view.Board_view_interface;
 
@@ -14,19 +15,21 @@ public class Board {
     private final int PERIOD_INTERVAL = 300;
 
     private Timer timer;
-    private boolean isFallingFinished = false;
-    private boolean isStarted = false;
-    private boolean isPaused = false;
+//    private boolean isFallingFinished = false;
+//    private boolean isStarted = false;
+//    private boolean isPaused = false;
     private int curX = 0;
     private int curY = 0;
     private Shape curPiece;
     private Tetrominoe[] board;
+    private Main_controller mainController;
     private Board_view_interface bvi;
 
-    public Board(Board_view_interface parent, int board_width, int board_height) {
+    public Board(Main_controller parent, Board_view_interface boardLook, int board_width, int board_height) {
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=board_height;
-        bvi=parent;
+        mainController=parent;
+        bvi=boardLook;
         initBoard();
     }
 
@@ -44,7 +47,7 @@ public class Board {
 
     public void start() {
 
-        isStarted = true;
+        mainController.setStarted(true);
         clearBoard();
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), INITIAL_DELAY, PERIOD_INTERVAL);
@@ -53,11 +56,11 @@ public class Board {
 
     public void pause() {
 
-        if (!isStarted) {
+        if (!mainController.isStarted()) {
             return;
         }
 
-        isPaused = !isPaused;
+        mainController.setPaused(!mainController.isPaused());
     }
 
     public void dropDown() {
@@ -103,7 +106,7 @@ public class Board {
 
         removeFullLines();
 
-        if (!isFallingFinished) {
+        if (!mainController.isFallingFinished()) {
             newPiece();
         }
     }
@@ -118,7 +121,7 @@ public class Board {
             System.out.println("Game over. R to restart");
             curPiece.setShape(Tetrominoe.NoShape);
             timer.cancel();
-            isStarted = false;
+            mainController.setStarted(false);
         }
     }
 
@@ -132,7 +135,7 @@ public class Board {
             System.out.println("Game over. R to restart");
             curPiece.setShape(Tetrominoe.NoShape);
             timer.cancel();
-            isStarted = false;
+            mainController.setStarted(false);
         }
     }
 
@@ -191,7 +194,7 @@ public class Board {
         }
 
         if (numFullLines > 0) {
-            isFallingFinished = true;
+            mainController.setFallingFinished(true);
             curPiece.setShape(Tetrominoe.NoShape);
             bvi.repaint();
         }
@@ -205,13 +208,13 @@ public class Board {
 
     private void update() {
 
-        if (isPaused) {
+        if (mainController.isPaused()) {
             return;
         }
 
-        if (isFallingFinished) {
+        if (mainController.isFallingFinished()) {
 
-            isFallingFinished = false;
+            mainController.setFallingFinished(false);
             newPiece();
         } else {
 
@@ -219,17 +222,17 @@ public class Board {
         }
     }
 
-    public boolean isPaused() {
-        return isPaused;
-    }
-
-    public boolean isFallingFinished() {
-        return isFallingFinished;
-    }
-
-    public boolean isStarted() {
-        return isStarted;
-    }
+//    public boolean isPaused() {
+//        return isPaused;
+//    }
+//
+//    public boolean isFallingFinished() {
+//        return isFallingFinished;
+//    }
+//
+//    public boolean isStarted() {
+//        return isStarted;
+//    }
 
     public Shape getCurPiece() {
         return curPiece;
