@@ -1,8 +1,9 @@
 package com.model;
 
 import com.controller.Main_controller;
+import com.model.Shape.Tetrominoe;
 
-public class Drop_board {
+public class DropBoard {
 
     private int BOARD_WIDTH;
     private int BOARD_HEIGHT;
@@ -10,10 +11,10 @@ public class Drop_board {
     private int curX = 0;
     private int curY = 0;
     private Shape curPiece;
-    private Shape.Tetrominoe[] board;
+    private Tetrominoe[] board;
     private Main_controller mainController;
 
-    public Drop_board(Main_controller controller, int board_width)
+    public DropBoard(Main_controller controller, int board_width)
     {
         initBoard(controller, board_width);
     }
@@ -24,14 +25,14 @@ public class Drop_board {
         curPiece = new Shape();
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=4;
-        this.board = new Shape.Tetrominoe[BOARD_WIDTH * BOARD_HEIGHT];
+        this.board = new Tetrominoe[BOARD_WIDTH * BOARD_HEIGHT];
         clearBoard();
     }
 
     private void clearBoard() {
 
         for (int i = 0; i < BOARD_HEIGHT * BOARD_WIDTH; ++i) {
-            board[i] = Shape.Tetrominoe.NoShape;
+            board[i] = Tetrominoe.NoShape;
         }
     }
 
@@ -58,7 +59,7 @@ public class Drop_board {
         curX = newX;
         curY = newY;
 
-        //bvi.repaint();
+        mainController.getDbvi().repaint();
 
         return true;
     }
@@ -71,7 +72,7 @@ public class Drop_board {
         mainController.startCountdownTimer(mainController.COUNTDOWN_TIME,mainController.COUNTDOWN_PERIOD_INTERVAL);
     }
 
-    public Shape.Tetrominoe[] getBoard() {
+    public Tetrominoe[] getBoard() {
         return board;
     }
 

@@ -1,24 +1,24 @@
 package com.view;
 
 import com.controller.Main_controller;
-import com.model.Drop_board;
+import com.model.DropBoard;
 import com.model.Shape;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Drop_Board_look extends JPanel {
+public class Drop_Board_look extends JPanel implements Drop_Board_view_interface {
 
     private int BOARD_WIDTH;
     private int BOARD_HEIGHT;
-    private Drop_board board;
+    private DropBoard board;
 
     public Drop_Board_look(Main_controller controller, int board_width)
     {
         setFocusable(true);
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=4;
-        board = new Drop_board(controller,board_width);
+        board = new DropBoard(controller,board_width);
     }
 
     private int squareWidth() {
@@ -96,5 +96,5 @@ public class Drop_Board_look extends JPanel {
 
     }
 
-    public Drop_board getDropBoard() {return board;}
+    public DropBoard getDropBoard() {return board;}
 }

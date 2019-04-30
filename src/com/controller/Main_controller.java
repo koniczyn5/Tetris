@@ -1,10 +1,7 @@
 package com.controller;
 
 import com.model.MainBoard;
-import com.view.Board_view_interface;
-import com.view.Drop_Board_look;
-import com.view.Game;
-import com.view.Main_Board_look;
+import com.view.*;
 
 import java.util.Timer;
 
@@ -29,16 +26,17 @@ public class Main_controller extends MultiKeyAdapter {
 
     private Board_view_interface bvi;
 //    private MainBoard mainBoard;
-    private Drop_Board_look dropBoardLook;
+    private Drop_Board_view_interface dbvi;
 
     public Main_controller (Game parent, int board_width, int board_height) {
         super();
         Main_Board_look boardLook=new Main_Board_look(this,board_width,board_height);
-        dropBoardLook=new Drop_Board_look(this,board_width);
         bvi=boardLook;
         boardLook.setSize(200,440);
         boardLook.setLocation(0,90);
         boardLook.addKeyListener(this);
+        Drop_Board_look dropBoardLook=new Drop_Board_look(this,board_width);
+        dbvi=dropBoardLook;
         dropBoardLook.setSize(200,80);
         dropBoardLook.setLocation(0,0);
         dropBoardLook.addKeyListener(this);
@@ -68,6 +66,7 @@ public class Main_controller extends MultiKeyAdapter {
     public void cancelCountdownTimer() { countdownTimer.cancel(); }
 
     public Board_view_interface getBvi() { return bvi; }
+    public Drop_Board_view_interface getDbvi() { return dbvi; }
 
     public boolean isFallingFinished() { return isFallingFinished; }
 
