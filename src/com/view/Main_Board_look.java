@@ -1,24 +1,24 @@
 package com.view;
 
 import com.controller.Main_controller;
-import com.model.Board;
+import com.model.MainBoard;
 import com.model.Shape;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Board_look extends JPanel implements Board_view_interface {
+public class Main_Board_look extends JPanel implements Board_view_interface {
 
     private int BOARD_WIDTH;
     private int BOARD_HEIGHT;
-    private Board board;
+    private MainBoard mainBoard;
 
-    public Board_look(Main_controller parent, int board_width, int board_height)
+    public Main_Board_look(Main_controller parent, int board_width, int board_height)
     {
         setFocusable(true);
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=board_height;
-        board = new Board(parent, this, board_width, board_height);
+        mainBoard = new MainBoard(parent, board_width, board_height);
     }
 
     private int squareWidth() {
@@ -29,7 +29,7 @@ public class Board_look extends JPanel implements Board_view_interface {
         return (int) getSize().getHeight() / BOARD_HEIGHT;
     }
 
-    private Shape.Tetrominoe shapeAt(int x, int y) { return board.getBoard()[(y * BOARD_WIDTH) + x];
+    private Shape.Tetrominoe shapeAt(int x, int y) { return mainBoard.getBoard()[(y * BOARD_WIDTH) + x];
     }
 
     public void doDrawing(Graphics g) {
@@ -51,15 +51,15 @@ public class Board_look extends JPanel implements Board_view_interface {
             }
         }
 
-        if (board.getCurPiece().getShape() != Shape.Tetrominoe.NoShape) {
+        if (mainBoard.getCurPiece().getShape() != Shape.Tetrominoe.NoShape) {
 
             for (int i = 0; i < 4; ++i) {
 
-                int x = board.getCurX() + board.getCurPiece().x(i);
-                int y = board.getCurY() - board.getCurPiece().y(i);
+                int x = mainBoard.getCurX() + mainBoard.getCurPiece().x(i);
+                int y = mainBoard.getCurY() - mainBoard.getCurPiece().y(i);
                 drawSquare(g, x * squareWidth(),
                         boardTop + (BOARD_HEIGHT - y - 1) * squareHeight(),
-                        board.getCurPiece().getShape());
+                        mainBoard.getCurPiece().getShape());
             }
         }
     }
@@ -96,5 +96,5 @@ public class Board_look extends JPanel implements Board_view_interface {
 
     }
 
-    public Board getBoard() {return board;}
+    public MainBoard getMainBoard() {return mainBoard;}
 }

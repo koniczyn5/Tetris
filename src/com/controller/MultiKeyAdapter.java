@@ -4,7 +4,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.TreeSet;
 
-//TODO: Fix the bug with sequence: Press A, Press D, Release D//
 public class MultiKeyAdapter extends KeyAdapter {
 
     private TreeSet<Integer> Keys;

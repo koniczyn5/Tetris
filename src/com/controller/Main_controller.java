@@ -1,6 +1,6 @@
 package com.controller;
 
-import com.model.Board;
+import com.model.MainBoard;
 import com.model.Shape;
 import com.view.*;
 
@@ -18,7 +18,7 @@ public class Main_controller extends MultiKeyAdapter {
     private boolean isStarted = false;
     private boolean isPaused = false;
     private Board_view_interface bvi;
-    private Board board;
+    private MainBoard mainBoard;
     private Drop_board_look dropBoardLook;
     private Timer keysTimer;
     private Timer boardTimer;
@@ -26,8 +26,8 @@ public class Main_controller extends MultiKeyAdapter {
     public Main_controller (Game parent, int board_width, int board_height)
     {
         super();
-        Board_look boardLook=new Board_look(this,board_width,board_height);
-        dropBoardLook=new Drop_board_look(boardLook.getBoard(),board_width);
+        Main_Board_look boardLook=new Main_Board_look(this,board_width,board_height);
+        dropBoardLook=new Drop_board_look(boardLook.getMainBoard(),board_width);
         bvi=boardLook;
         boardLook.setSize(200,440);
         boardLook.setLocation(0,90);
@@ -41,12 +41,12 @@ public class Main_controller extends MultiKeyAdapter {
         parent.add(line);
         parent.add(dropBoardLook);
         parent.add(boardLook);
-        initMain(bvi.getBoard());
+        initMain(bvi.getMainBoard());
     }
 
-    private void initMain(Board board)
+    private void initMain(MainBoard mainBoard)
     {
-        this.board=board;
+        this.mainBoard = mainBoard;
         keysTimer=new Timer(true);
         keysTimer.scheduleAtFixedRate(new KeysTask(),KEYS_INITIAL_DELAY,KEYS_PERIOD_INTERVAL);
     }
@@ -57,36 +57,36 @@ public class Main_controller extends MultiKeyAdapter {
         public void run() {
             if (!isStarted) {
                 if (isInKeys(KeyEvent.VK_R)) {
-                    board.start();
+                    mainBoard.start();
                 }
                 return;
             }
-            if (isPaused || board.getCurPiece().getShape() == Shape.Tetrominoe.NoShape) {
+            if (isPaused || mainBoard.getCurPiece().getShape() == Shape.Tetrominoe.NoShape) {
                 return;
             }
 
             if (isInKeys(KeyEvent.VK_ESCAPE)) {
-                board.pause();
+                mainBoard.pause();
                 return;
             }
 
             if (isInKeys(KeyEvent.VK_A) && !isInKeys(KeyEvent.VK_D)) {
-                board.tryMove(board.getCurPiece(), board.getCurX() - 1, board.getCurY());
+                mainBoard.tryMove(mainBoard.getCurPiece(), mainBoard.getCurX() - 1, mainBoard.getCurY());
             }
             if (isInKeys(KeyEvent.VK_D) && !isInKeys(KeyEvent.VK_A)) {
-                board.tryMove(board.getCurPiece(), board.getCurX() + 1, board.getCurY());
+                mainBoard.tryMove(mainBoard.getCurPiece(), mainBoard.getCurX() + 1, mainBoard.getCurY());
             }
             if (isInKeys(KeyEvent.VK_Q) && !isInKeys(KeyEvent.VK_E)) {
-                board.tryMove(board.getCurPiece().rotateLeft(), board.getCurX(), board.getCurY());
+                mainBoard.tryMove(mainBoard.getCurPiece().rotateLeft(), mainBoard.getCurX(), mainBoard.getCurY());
             }
             if (isInKeys(KeyEvent.VK_E) && !isInKeys(KeyEvent.VK_Q)) {
-                board.tryMove(board.getCurPiece().rotateRight(), board.getCurX(), board.getCurY());
+                mainBoard.tryMove(mainBoard.getCurPiece().rotateRight(), mainBoard.getCurX(), mainBoard.getCurY());
             }
             if (isInKeys(KeyEvent.VK_S)) {
-                board.oneLineDown();
+                mainBoard.oneLineDown();
             }
             if (isInKeys(KeyEvent.VK_SPACE)) {
-                board.dropDown();
+                mainBoard.dropDown();
             }
         }
     }

@@ -2,12 +2,11 @@ package com.model;
 
 import com.controller.Main_controller;
 import com.model.Shape.Tetrominoe;
-import com.view.Board_view_interface;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Board {
+public class MainBoard {
 
     private int BOARD_WIDTH;
     private int BOARD_HEIGHT;
@@ -15,21 +14,16 @@ public class Board {
     private final int PERIOD_INTERVAL = 300;
 
     private Timer timer;
-//    private boolean isFallingFinished = false;
-//    private boolean isStarted = false;
-//    private boolean isPaused = false;
     private int curX = 0;
     private int curY = 0;
     private Shape curPiece;
     private Tetrominoe[] board;
     private Main_controller mainController;
-    private Board_view_interface bvi;
 
-    public Board(Main_controller parent, Board_view_interface boardLook, int board_width, int board_height) {
+    public MainBoard(Main_controller parent, int board_width, int board_height) {
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=board_height;
         mainController=parent;
-        bvi=boardLook;
         initBoard();
     }
 
@@ -159,7 +153,7 @@ public class Board {
         curX = newX;
         curY = newY;
 
-        bvi.repaint();
+        mainController.getBvi().repaint();
 
         return true;
     }
@@ -196,14 +190,14 @@ public class Board {
         if (numFullLines > 0) {
             mainController.setFallingFinished(true);
             curPiece.setShape(Tetrominoe.NoShape);
-            bvi.repaint();
+            mainController.getBvi().repaint();
         }
     }
 
     private void doGameCycle() {
 
         update();
-        bvi.repaint();
+        mainController.getBvi().repaint();
     }
 
     private void update() {
@@ -221,18 +215,6 @@ public class Board {
             oneLineDown();
         }
     }
-
-//    public boolean isPaused() {
-//        return isPaused;
-//    }
-//
-//    public boolean isFallingFinished() {
-//        return isFallingFinished;
-//    }
-//
-//    public boolean isStarted() {
-//        return isStarted;
-//    }
 
     public Shape getCurPiece() {
         return curPiece;

@@ -14,19 +14,19 @@ public class Drop_board {
     private Shape curPiece;
     private Shape.Tetrominoe[] board;
     private Timer countdownTimer;
-    private Board mainBoard;
+    private MainBoard mainBoard;
     private final int TIMER_TIME=2000;
     private int timerTime;
     private final int TIMER_PERIOD=10;
 
-    public Drop_board(Board board,int board_width)
+    public Drop_board(MainBoard mainBoard, int board_width)
     {
-        initBoard(board, board_width);
+        initBoard(mainBoard, board_width);
     }
 
-    private void initBoard(Board board,int board_width) {
+    private void initBoard(MainBoard mainBoard, int board_width) {
 
-        this.mainBoard=board;
+        this.mainBoard= mainBoard;
         curPiece = new Shape();
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=4;

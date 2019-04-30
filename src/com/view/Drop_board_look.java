@@ -1,7 +1,7 @@
 package com.view;
 
-import com.model.Board;
 import com.model.Drop_board;
+import com.model.MainBoard;
 import com.model.Shape;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ public class Drop_board_look extends JPanel {
     private int BOARD_HEIGHT;
     private Drop_board board;
 
-    public Drop_board_look(Board mainBoard, int board_width)
+    public Drop_board_look(MainBoard mainBoard, int board_width)
     {
         setFocusable(true);
         BOARD_WIDTH=board_width;
