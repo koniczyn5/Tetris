@@ -1,32 +1,26 @@
 package com.model;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import com.controller.Main_controller;
 
 public class Drop_board {
 
     private int BOARD_WIDTH;
     private int BOARD_HEIGHT;
 
-    private boolean isDropping = false;
     private int curX = 0;
     private int curY = 0;
     private Shape curPiece;
     private Shape.Tetrominoe[] board;
-    private Timer countdownTimer;
-    private MainBoard mainBoard;
-    private final int TIMER_TIME=2000;
-    private int timerTime;
-    private final int TIMER_PERIOD=10;
+    private Main_controller mainController;
 
-    public Drop_board(MainBoard mainBoard, int board_width)
+    public Drop_board(Main_controller controller, int board_width)
     {
-        initBoard(mainBoard, board_width);
+        initBoard(controller, board_width);
     }
 
-    private void initBoard(MainBoard mainBoard, int board_width) {
+    private void initBoard(Main_controller controller, int board_width) {
 
-        this.mainBoard= mainBoard;
+        mainController= controller;
         curPiece = new Shape();
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=4;
@@ -43,8 +37,8 @@ public class Drop_board {
 
     public void dropDown() {
 
-        isDropping=false;
-        mainBoard.newPiece(curPiece,curX);
+        mainController.setDropping(false);
+        mainController.getBvi().getMainBoard().newPiece(curPiece,curX);
         clearBoard();
     }
 
@@ -72,11 +66,9 @@ public class Drop_board {
     private void newPiece() {
 
         curPiece.setRandomShape();
-        curX = BOARD_WIDTH / 2 + 1;
+        curX = (BOARD_WIDTH-1) / 2 + 1;
         curY = -curPiece.minY();
-        timerTime=TIMER_TIME;
-        countdownTimer=new Timer();
-        countdownTimer.scheduleAtFixedRate(new CountdownTimerSchedule(),0,TIMER_PERIOD);
+        mainController.startCountdownTimer(mainController.COUNTDOWN_TIME,mainController.COUNTDOWN_PERIOD_INTERVAL);
     }
 
     public Shape.Tetrominoe[] getBoard() {
@@ -93,25 +85,5 @@ public class Drop_board {
 
     public int getCurY() {
         return curY;
-    }
-
-    public boolean isDropping() {
-        return isDropping;
-    }
-
-    private class CountdownTimerSchedule extends TimerTask {
-    @Override
-    public void run()
-    {
-        timerTime-=TIMER_PERIOD;
-        if(timerTime<=0)
-        {
-            //zrzuc klocek i naloz kare
-        }
-        else
-        {
-            //zaktualizuj wyswietlacz czasu
-        }
-    }
     }
 }

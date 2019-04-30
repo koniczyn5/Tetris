@@ -85,7 +85,7 @@ public class MainBoard {
     private void newPiece() {
 
         curPiece.setRandomShape();
-        curX = BOARD_WIDTH / 2 + 1;
+        curX = (BOARD_WIDTH-1) / 2 + 1;
         curY = BOARD_HEIGHT - 1 + curPiece.minY();
 
         if (!tryMove(curPiece, curX, curY)) {
