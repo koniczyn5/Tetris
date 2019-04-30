@@ -1,12 +1,12 @@
 package com.controller;
 
 import com.model.MainBoard;
-import com.model.Shape;
-import com.view.*;
+import com.view.Board_view_interface;
+import com.view.Drop_board_look;
+import com.view.Game;
+import com.view.Main_Board_look;
 
-import java.awt.event.KeyEvent;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class Main_controller extends MultiKeyAdapter {
 
@@ -35,10 +35,6 @@ public class Main_controller extends MultiKeyAdapter {
         dropBoardLook.setSize(200,80);
         dropBoardLook.setLocation(0,0);
         dropBoardLook.addKeyListener(this);
-        Boarder line= new Boarder();
-        line.setSize(215,10);
-        line.setLocation(0,80);
-        parent.add(line);
         parent.add(dropBoardLook);
         parent.add(boardLook);
         initMain(bvi.getMainBoard());
@@ -48,47 +44,18 @@ public class Main_controller extends MultiKeyAdapter {
     {
         this.mainBoard = mainBoard;
         keysTimer=new Timer(true);
-        keysTimer.scheduleAtFixedRate(new KeysTask(),KEYS_INITIAL_DELAY,KEYS_PERIOD_INTERVAL);
+        keysTimer.scheduleAtFixedRate(new KeysTask(this),KEYS_INITIAL_DELAY,KEYS_PERIOD_INTERVAL);
     }
 
+    public void startBoardTimer(int delay, int periodInterval)
+    {
+        boardTimer=new Timer(true);
+        boardTimer.scheduleAtFixedRate(new BoardTask(this), delay, periodInterval);
+    }
 
-    private class KeysTask extends TimerTask {
-        @Override
-        public void run() {
-            if (!isStarted) {
-                if (isInKeys(KeyEvent.VK_R)) {
-                    mainBoard.start();
-                }
-                return;
-            }
-            if (isPaused || mainBoard.getCurPiece().getShape() == Shape.Tetrominoe.NoShape) {
-                return;
-            }
-
-            if (isInKeys(KeyEvent.VK_ESCAPE)) {
-                mainBoard.pause();
-                return;
-            }
-
-            if (isInKeys(KeyEvent.VK_A) && !isInKeys(KeyEvent.VK_D)) {
-                mainBoard.tryMove(mainBoard.getCurPiece(), mainBoard.getCurX() - 1, mainBoard.getCurY());
-            }
-            if (isInKeys(KeyEvent.VK_D) && !isInKeys(KeyEvent.VK_A)) {
-                mainBoard.tryMove(mainBoard.getCurPiece(), mainBoard.getCurX() + 1, mainBoard.getCurY());
-            }
-            if (isInKeys(KeyEvent.VK_Q) && !isInKeys(KeyEvent.VK_E)) {
-                mainBoard.tryMove(mainBoard.getCurPiece().rotateLeft(), mainBoard.getCurX(), mainBoard.getCurY());
-            }
-            if (isInKeys(KeyEvent.VK_E) && !isInKeys(KeyEvent.VK_Q)) {
-                mainBoard.tryMove(mainBoard.getCurPiece().rotateRight(), mainBoard.getCurX(), mainBoard.getCurY());
-            }
-            if (isInKeys(KeyEvent.VK_S)) {
-                mainBoard.oneLineDown();
-            }
-            if (isInKeys(KeyEvent.VK_SPACE)) {
-                mainBoard.dropDown();
-            }
-        }
+    public void stopBoardTimer()
+    {
+        boardTimer.cancel();
     }
 
     public Board_view_interface getBvi() {

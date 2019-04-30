@@ -194,7 +194,7 @@ public class MainBoard {
         }
     }
 
-    private void doGameCycle() {
+    public void doGameCycle() {
 
         update();
         mainController.getBvi().repaint();
