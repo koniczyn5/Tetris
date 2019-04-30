@@ -36,7 +36,6 @@ public class MainBoard {
         mainController.setStarted(true);
         clearBoard();
         mainController.startBoardTimer(mainController.BOARD_INITIAL_DELAY,mainController.BOARD_PERIOD_INTERVAL);
-        newPiece();//TODO
     }
 
     public void pause() {
@@ -78,7 +77,8 @@ public class MainBoard {
             board[(y * BOARD_WIDTH) + x] = curPiece.getShape();
         }
         removeFullLines();
-        if (!mainController.isFallingFinished()) { newPiece();//TODO
+        mainController.setFalling(false);
+        if (!mainController.isFalling() && !mainController.isDropping()) { mainController.SpawnNewPiece();
               }
     }
 
@@ -98,7 +98,7 @@ public class MainBoard {
 
     public void newPiece(Shape newShape, int newX) {
 
-        curPiece=newShape;
+        curPiece.setShape(newShape.getShape());
         curX = newX;
         curY = BOARD_HEIGHT - 1 + curPiece.minY();
         if (!tryMove(curPiece, curX, curY)) {
@@ -107,6 +107,7 @@ public class MainBoard {
             mainController.cancelBoardTimer();
             mainController.setStarted(false);
         }
+        mainController.setFalling(true);
     }
 
     public boolean tryMove(Shape newPiece, int newX, int newY) {
@@ -149,7 +150,7 @@ public class MainBoard {
             }
         }
         if (numFullLines > 0) {
-            mainController.setFallingFinished(true);
+            mainController.setFalling(false);
             curPiece.setShape(Tetrominoe.NoShape);
             mainController.getBvi().repaint();
         }
@@ -163,10 +164,9 @@ public class MainBoard {
 
     private void update() {
 
-        if (mainController.isPaused() || curPiece.getShape()==Tetrominoe.NoShape) { return; }
-        if (mainController.isFallingFinished()) {
-            mainController.setFallingFinished(false);
-            newPiece();
+        if (mainController.isPaused() || mainController.isDropping()) { return; }
+        if (!mainController.isFalling() && !mainController.isDropping()) {
+            mainController.SpawnNewPiece();
         } else { oneLineDown(); }
     }
 

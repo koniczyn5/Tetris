@@ -41,10 +41,14 @@ public class DropBoard {
         mainController.setDropping(false);
         mainController.getBvi().getMainBoard().newPiece(curPiece,curX);
         clearBoard();
+        curPiece.setShape(Tetrominoe.NoShape);
+        mainController.getDbvi().repaint();
     }
 
     public void start() {
-        
+        clearBoard();
+        mainController.setDropping(true);
+        newPiece();
     }
 
     public boolean tryMove(Shape newPiece, int newX, int newY) {
@@ -68,11 +72,11 @@ public class DropBoard {
         return true;
     }
 
-    private void newPiece() {
+    public void newPiece() {
 
         curPiece.setRandomShape();
         curX = (BOARD_WIDTH-1) / 2 + 1;
-        curY = -curPiece.minY();
+        curY = BOARD_HEIGHT - 1 + curPiece.minY();
         mainController.startCountdownTimer(mainController.COUNTDOWN_TIME,mainController.COUNTDOWN_PERIOD_INTERVAL);
     }
 

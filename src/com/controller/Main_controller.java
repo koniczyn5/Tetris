@@ -19,7 +19,7 @@ public class Main_controller extends MultiKeyAdapter {
     public final int COUNTDOWN_TIME =2000;
     public final int COUNTDOWN_PERIOD_INTERVAL =10;
 
-    private boolean isFallingFinished = false;
+    private boolean isFalling = false;
     private boolean isStarted = false;
     private boolean isPaused = false;
     private boolean isDropping = false;
@@ -51,6 +51,17 @@ public class Main_controller extends MultiKeyAdapter {
         keysTimer.scheduleAtFixedRate(new KeysTask(this),KEYS_INITIAL_DELAY,KEYS_PERIOD_INTERVAL);
     }
 
+    public void start() {
+        bvi.getMainBoard().start();
+        dbvi.getDropBoard().start();
+    }
+
+    public void SpawnNewPiece()
+    {
+        isDropping=true;
+        dbvi.getDropBoard().newPiece();
+    }
+
     public void startBoardTimer(int delay, int periodInterval) {
         boardTimer=new Timer(true);
         boardTimer.scheduleAtFixedRate(new BoardTask(this), delay, periodInterval);
@@ -59,6 +70,7 @@ public class Main_controller extends MultiKeyAdapter {
     public void cancelBoardTimer() { boardTimer.cancel(); }
 
     public void startCountdownTimer(int time, int periodInterval) {
+        if(isFalling){return;}
         countdownTimer=new Timer(true);
         countdownTimer.scheduleAtFixedRate(new CountdownTimerTask(this, time, periodInterval),0, periodInterval);
     }
@@ -68,9 +80,9 @@ public class Main_controller extends MultiKeyAdapter {
     public Board_view_interface getBvi() { return bvi; }
     public Drop_Board_view_interface getDbvi() { return dbvi; }
 
-    public boolean isFallingFinished() { return isFallingFinished; }
+    public boolean isFalling() { return isFalling; }
 
-    public void setFallingFinished(boolean fallingFinished) { isFallingFinished = fallingFinished; }
+    public void setFalling(boolean falling) { isFalling = falling; }
 
     public boolean isStarted() { return isStarted; }
 
