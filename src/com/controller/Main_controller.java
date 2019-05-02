@@ -27,6 +27,7 @@ public class Main_controller extends MultiKeyAdapter {
     private Board_view_interface bvi;
 //    private MainBoard mainBoard;
     private Drop_Board_view_interface dbvi;
+    private Timer_look timerLook;
 
     public Main_controller (Game parent, int board_width, int board_height) {
         super();
@@ -40,8 +41,11 @@ public class Main_controller extends MultiKeyAdapter {
         dropBoardLook.setSize(200,80);
         dropBoardLook.setLocation(0,0);
         dropBoardLook.addKeyListener(this);
+        timerLook=new Timer_look();
+        timerLook.setLocation(210, 0);
         parent.add(dropBoardLook);
         parent.add(boardLook);
+        parent.add(timerLook);
         initMain(bvi.getMainBoard());
     }
 
@@ -78,7 +82,10 @@ public class Main_controller extends MultiKeyAdapter {
     public void cancelCountdownTimer() { countdownTimer.cancel(); }
 
     public Board_view_interface getBvi() { return bvi; }
+
     public Drop_Board_view_interface getDbvi() { return dbvi; }
+
+    public Timer_look getTimerLook() { return timerLook; }
 
     public boolean isFalling() { return isFalling; }
 
@@ -95,4 +102,6 @@ public class Main_controller extends MultiKeyAdapter {
     public boolean isDropping() { return isDropping; }
 
     public void setDropping(boolean dropping) { isDropping = dropping; }
+
+
 }

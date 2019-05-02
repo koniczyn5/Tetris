@@ -5,8 +5,8 @@ import com.controller.Main_controller;
 import javax.swing.*;
 import java.awt.*;
 
-//TODO: Reverse order of components
-//TODO: Write Dropping board
+//TODO: Reverse order of components DONE
+//TODO: Write Dropping board DONE
 //TODO: Write Info panel, Score logic, Score controller
 //TODO: Write punishments and powers
 //TODO: Write Unit tests
@@ -29,7 +29,7 @@ public class Game extends JFrame {
         controller.start();
         getContentPane().setBackground(Color.darkGray);
         setTitle("Game");
-        setSize(215, 570);
+        setSize(425, 570);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

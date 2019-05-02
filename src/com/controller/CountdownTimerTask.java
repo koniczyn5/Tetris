@@ -22,10 +22,11 @@ public class CountdownTimerTask extends TimerTask {
             //zrzuc klocek i naloz kare
             mainController.getDbvi().getDropBoard().dropDown();
             mainController.cancelCountdownTimer();
+            mainController.getTimerLook().SetTime(0);
         }
         else
         {
-            //zaktualizuj wyswietlacz czasu
+            mainController.getTimerLook().SetTime(timerTime);
             mainController.getDbvi().repaint();
         }
     }
