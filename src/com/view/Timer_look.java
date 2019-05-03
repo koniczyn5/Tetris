@@ -9,14 +9,18 @@ public class Timer_look extends JPanel {
 
     public Timer_look(){
         setFocusable(false);
-        timerText=new JLabel();
-        timerText.setFont(new Font("Sherif", Font.PLAIN,60));
+        timerText=new JLabel("",SwingConstants.CENTER);
+        timerText.setFont(new Font("Sherif", Font.PLAIN,80));
+        JLabel Headline=new JLabel("Time left: ",SwingConstants.CENTER);
+        setLayout(new BorderLayout());
+        add(Headline, BorderLayout.NORTH);
         add(timerText, BorderLayout.CENTER);
-        setSize(200,80);
     }
 
     public void SetTime(Integer timeLeft) {
-        String text = timeLeft / 1000 + "." + (timeLeft/10) % 100;
+        String text = timeLeft / 1000 + ".";
+        if((timeLeft/10)%100<10) text += "0";
+        text += (timeLeft / 10) % 100;
         timerText.setText(text);
     }
 

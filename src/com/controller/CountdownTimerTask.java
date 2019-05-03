@@ -16,6 +16,7 @@ public class CountdownTimerTask extends TimerTask {
     @Override
     public void run()
     {
+        if(mainController.isPaused()) return;
         timerTime-=accurancy;
         if(timerTime<=0)
         {

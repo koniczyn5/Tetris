@@ -27,7 +27,7 @@ public class KeysTask extends TimerTask {
         }
         if (mainController.isInKeys(KeyEvent.VK_ESCAPE)) {
             System.out.println("Pausing");
-            mainBoard.pause();
+            mainController.pause();
             return;
         }
         if (mainController.isPaused()) {
@@ -94,7 +94,7 @@ public class KeysTask extends TimerTask {
                 System.out.println("Drop Down");
                 dropBoard.dropDown();
                 mainController.cancelCountdownTimer();
-                //TODO
+                //TODO Give points for droping earlier
             }
         }
     }

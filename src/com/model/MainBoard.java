@@ -13,6 +13,7 @@ public class MainBoard {
     private Shape curPiece;
     private Tetrominoe[] board;
     private Main_controller mainController;
+    private int score; //TODO rework
 
     public MainBoard(Main_controller parent, int board_width, int board_height) {
         initBoard(parent, board_width, board_height);
@@ -35,15 +36,9 @@ public class MainBoard {
 
         mainController.setStarted(true);
         mainController.setFalling(false);
+        score=0;
+        mainController.getInfoPanelLook().setStatusBar("Playing...");
         clearBoard();
-    }
-
-    public void pause() {
-
-        if (!mainController.isStarted()) {
-            return;
-        }
-        mainController.setPaused(!mainController.isPaused());
     }
 
     public void dropDown() {
@@ -82,27 +77,14 @@ public class MainBoard {
               }
     }
 
-//    private void newPiece() {
-//
-//        curPiece.setRandomShape();
-//        curX = (BOARD_WIDTH-1) / 2 + 1;
-//        curY = BOARD_HEIGHT - 1 + curPiece.minY();
-//
-//        if (!tryMove(curPiece, curX, curY)) {
-//            System.out.println("Game over. R to restart");
-//            curPiece.setShape(Tetrominoe.NoShape);
-//            mainController.cancelBoardTimer();
-//            mainController.setStarted(false);
-//        }
-//    }
-
-    public void newPiece(Shape newShape, int newX) {
+    void newPiece(Shape newShape, int newX) {
 
         curPiece.copyShape(newShape);
         curX = newX;
         curY = BOARD_HEIGHT - 1 + curPiece.minY();
         if (!tryMove(curPiece, curX, curY)) {
             System.out.println("Game over. R to restart");
+            mainController.getInfoPanelLook().setStatusBar("Game over. Press R to restart.");
             curPiece.setShape(Tetrominoe.NoShape);
             mainController.cancelBoardTimer();
             mainController.setStarted(false);
@@ -141,7 +123,8 @@ public class MainBoard {
                 }
             }
             if (lineIsFull) {
-                ++numFullLines;//TODO
+                ++numFullLines;
+                ++score; //TODO give points for fullLines
                 for (int k = i; k < BOARD_HEIGHT - 1; ++k) {
                     for (int j = 0; j < BOARD_WIDTH; ++j) {
                         board[(k * BOARD_WIDTH) + j] = shapeAt(j, k + 1);
@@ -160,6 +143,7 @@ public class MainBoard {
 
         update();
         mainController.getBvi().repaint();
+        mainController.getInfoPanelLook().setScoreBar(score);//TODO rework
     }
 
     private void update() {

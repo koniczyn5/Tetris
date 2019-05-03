@@ -1,6 +1,5 @@
 package com.controller;
 
-import com.model.MainBoard;
 import com.view.*;
 
 import java.util.Timer;
@@ -12,8 +11,8 @@ public class Main_controller extends MultiKeyAdapter {
     private final int KEYS_PERIOD_INTERVAL = 120;
 
     private Timer boardTimer;
-    public final int BOARD_INITIAL_DELAY = 100;
-    public final int BOARD_PERIOD_INTERVAL = 300;
+    private final int BOARD_INITIAL_DELAY = 100;
+    private final int BOARD_PERIOD_INTERVAL = 300;
 
     private Timer countdownTimer;
     public final int COUNTDOWN_TIME =2000;
@@ -25,9 +24,9 @@ public class Main_controller extends MultiKeyAdapter {
     private boolean isDropping = false;
 
     private Board_view_interface bvi;
-//    private MainBoard mainBoard;
     private Drop_Board_view_interface dbvi;
     private Timer_look timerLook;
+    private Info_Panel_look infoPanelLook;
 
     public Main_controller (Game parent, int board_width, int board_height) {
         super();
@@ -42,15 +41,19 @@ public class Main_controller extends MultiKeyAdapter {
         dropBoardLook.setLocation(0,0);
         dropBoardLook.addKeyListener(this);
         timerLook=new Timer_look();
+        timerLook.setSize(200,80);
         timerLook.setLocation(210, 0);
+        infoPanelLook=new Info_Panel_look();
+        infoPanelLook.setSize(200, 440);
+        infoPanelLook.setLocation(210,90);
         parent.add(dropBoardLook);
         parent.add(boardLook);
         parent.add(timerLook);
-        initMain(bvi.getMainBoard());
+        parent.add(infoPanelLook);
+        initMain();
     }
 
-    private void initMain(MainBoard mainBoard) {
-        //this.mainBoard = mainBoard;
+    private void initMain() {
         keysTimer=new Timer(true);
         keysTimer.scheduleAtFixedRate(new KeysTask(this),KEYS_INITIAL_DELAY,KEYS_PERIOD_INTERVAL);
     }
@@ -61,13 +64,28 @@ public class Main_controller extends MultiKeyAdapter {
         dbvi.getDropBoard().start();
     }
 
+    void pause() {
+        if (!isStarted) {
+            return;
+        }
+        isPaused=!isPaused;
+        if(isPaused)
+        {
+            infoPanelLook.setStatusBar("Game is paused.");
+        }
+        else
+        {
+            infoPanelLook.setStatusBar("Playing...");
+        }
+    }
+
     public void SpawnNewPiece()
     {
         isDropping=true;
         dbvi.getDropBoard().newPiece();
     }
 
-    public void startBoardTimer(int delay, int periodInterval) {
+    private void startBoardTimer(int delay, int periodInterval) {
         boardTimer=new Timer(true);
         boardTimer.scheduleAtFixedRate(new BoardTask(this), delay, periodInterval);
     }
@@ -80,25 +98,25 @@ public class Main_controller extends MultiKeyAdapter {
         countdownTimer.scheduleAtFixedRate(new CountdownTimerTask(this, time, periodInterval),0, periodInterval);
     }
 
-    public void cancelCountdownTimer() { countdownTimer.cancel(); }
+    void cancelCountdownTimer() { countdownTimer.cancel(); }
 
     public Board_view_interface getBvi() { return bvi; }
 
     public Drop_Board_view_interface getDbvi() { return dbvi; }
 
-    public Timer_look getTimerLook() { return timerLook; }
+    Timer_look getTimerLook() { return timerLook; }
+
+    public Info_Panel_look getInfoPanelLook() {return infoPanelLook; }
 
     public boolean isFalling() { return isFalling; }
 
     public void setFalling(boolean falling) { isFalling = falling; }
 
-    public boolean isStarted() { return isStarted; }
+    boolean isStarted() { return isStarted; }
 
     public void setStarted(boolean started) { isStarted = started; }
 
     public boolean isPaused() { return isPaused; }
-
-    public void setPaused(boolean paused) { isPaused = paused; }
 
     public boolean isDropping() { return isDropping; }
 
