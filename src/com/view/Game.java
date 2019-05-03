@@ -10,6 +10,7 @@ import java.awt.*;
 //TODO: Write Info panel, Score logic, Score controller
 //TODO: Write punishments and powers
 //TODO: Write Unit tests
+//TODO: Write overtime growth
 //TODO: Write Main menu
 //TODO: Rework look
 
