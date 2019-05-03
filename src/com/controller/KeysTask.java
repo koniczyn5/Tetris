@@ -21,8 +21,7 @@ public class KeysTask extends TimerTask {
         if (!mainController.isStarted()) {
             if (mainController.isInKeys(KeyEvent.VK_R)) {
                 System.out.println("Restarting");
-                mainBoard.start();
-                //TODO fix restarting
+                mainController.start();
             }
             return;
         }

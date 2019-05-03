@@ -57,6 +57,7 @@ public class Main_controller extends MultiKeyAdapter {
 
     public void start() {
         bvi.getMainBoard().start();
+        startBoardTimer(BOARD_INITIAL_DELAY,BOARD_PERIOD_INTERVAL);
         dbvi.getDropBoard().start();
     }
 

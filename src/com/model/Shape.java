@@ -21,10 +21,7 @@ public class Shape {
     };
 
 
-    Shape() {
-
-        initShape();
-    }
+    Shape() { initShape(); }
 
     private void initShape() {
 
@@ -33,15 +30,22 @@ public class Shape {
     }
 
     void setShape(Tetrominoe shape) {
+
         for (int i = 0; i < 4 ; i++) {
-
             for (int j = 0; j < 2; ++j) {
-
                 coordinates[i][j] = coordinatesTable[shape.ordinal()][i][j];
             }
         }
-
         pieceShape = shape;
+    }
+
+    void copyShape(Shape shape) {
+
+        for (int i = 0; i < 4 ; i++) {
+                coordinates[i][0] = shape.x(i);
+                coordinates[i][1] = shape.y(i);
+        }
+        pieceShape = shape.getShape();
     }
 
     private void setX(int index, int x) { coordinates[index][0] = x; }
@@ -61,46 +65,33 @@ public class Shape {
     public int minY() {
 
         int m = coordinates[0][1];
-
         for (int i=0; i < 4; i++) {
-
             m = Math.min(m, coordinates[i][1]);
         }
-
         return m;
     }
 
     public Shape rotateLeft() {
 
-        if (pieceShape == Tetrominoe.SquareShape)
-            return this;
-
+        if (pieceShape == Tetrominoe.SquareShape) return this;
         Shape result = new Shape();
         result.pieceShape = pieceShape;
-
         for (int i = 0; i < 4; ++i) {
-
             result.setX(i, y(i));
             result.setY(i, -x(i));
         }
-
         return result;
     }
 
     public Shape rotateRight() {
-
-        if (pieceShape == Tetrominoe.SquareShape)
-            return this;
-
+        if (pieceShape == Tetrominoe.SquareShape) return this;
         Shape result = new Shape();
         result.pieceShape = pieceShape;
-
         for (int i = 0; i < 4; ++i) {
 
             result.setX(i, -y(i));
             result.setY(i, x(i));
         }
-
         return result;
     }
 }

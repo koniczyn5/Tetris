@@ -34,8 +34,8 @@ public class MainBoard {
     public void start() {
 
         mainController.setStarted(true);
+        mainController.setFalling(false);
         clearBoard();
-        mainController.startBoardTimer(mainController.BOARD_INITIAL_DELAY,mainController.BOARD_PERIOD_INTERVAL);
     }
 
     public void pause() {
@@ -82,23 +82,23 @@ public class MainBoard {
               }
     }
 
-    private void newPiece() {
-
-        curPiece.setRandomShape();
-        curX = (BOARD_WIDTH-1) / 2 + 1;
-        curY = BOARD_HEIGHT - 1 + curPiece.minY();
-
-        if (!tryMove(curPiece, curX, curY)) {
-            System.out.println("Game over. R to restart");
-            curPiece.setShape(Tetrominoe.NoShape);
-            mainController.cancelBoardTimer();
-            mainController.setStarted(false);
-        }
-    }
+//    private void newPiece() {
+//
+//        curPiece.setRandomShape();
+//        curX = (BOARD_WIDTH-1) / 2 + 1;
+//        curY = BOARD_HEIGHT - 1 + curPiece.minY();
+//
+//        if (!tryMove(curPiece, curX, curY)) {
+//            System.out.println("Game over. R to restart");
+//            curPiece.setShape(Tetrominoe.NoShape);
+//            mainController.cancelBoardTimer();
+//            mainController.setStarted(false);
+//        }
+//    }
 
     public void newPiece(Shape newShape, int newX) {
 
-        curPiece.setShape(newShape.getShape());
+        curPiece.copyShape(newShape);
         curX = newX;
         curY = BOARD_HEIGHT - 1 + curPiece.minY();
         if (!tryMove(curPiece, curX, curY)) {
