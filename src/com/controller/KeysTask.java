@@ -23,6 +23,7 @@ public class KeysTask extends TimerTask {
                 System.out.println("Restarting");
                 mainController.start();
             }
+            if (mainController.isInKeys(KeyEvent.VK_ESCAPE)) System.exit(0);
             return;
         }
         if (mainController.isInKeys(KeyEvent.VK_ESCAPE)) {
