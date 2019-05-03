@@ -95,4 +95,6 @@ public class DropBoard {
     public int getCurY() {
         return curY;
     }
+
+    public int getBOARD_HEIGHT() { return BOARD_HEIGHT; }
 }

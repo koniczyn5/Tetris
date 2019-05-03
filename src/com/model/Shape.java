@@ -58,20 +58,7 @@ public class Shape {
         setShape(values[x]);
     }
 
-    public int minX() {
-
-        int m = coordinates[0][0];
-
-        for (int i=0; i < 4; i++) {
-
-            m = Math.min(m, coordinates[i][0]);
-        }
-
-        return m;
-    }
-
-
-    int minY() {
+    public int minY() {
 
         int m = coordinates[0][1];
 
