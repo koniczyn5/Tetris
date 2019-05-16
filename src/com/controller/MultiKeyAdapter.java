@@ -6,12 +6,8 @@ import java.util.TreeSet;
 
 public class MultiKeyAdapter extends KeyAdapter {
 
-    private TreeSet<Integer> Keys;
-    private TreeSet<Integer> AlreadyPressedKeys;
-    MultiKeyAdapter() {
-        AlreadyPressedKeys =new TreeSet<>();
-        Keys= new TreeSet<>();
-    }
+    private TreeSet<Integer> Keys = new TreeSet<>();
+    private TreeSet<Integer> AlreadyPressedKeys = new TreeSet<>();
 
     @Override
     public synchronized void keyPressed(KeyEvent e) {
@@ -41,5 +37,5 @@ public class MultiKeyAdapter extends KeyAdapter {
         return !AlreadyPressedKeys.contains(key);
     }
 
-    void addSingleKey(Integer key) { AlreadyPressedKeys.add(key);}
+    void addToAlreadyPressedKeys(Integer key) { AlreadyPressedKeys.add(key);}
 }
