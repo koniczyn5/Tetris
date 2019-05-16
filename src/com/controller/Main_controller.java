@@ -60,6 +60,7 @@ public class Main_controller extends MultiKeyAdapter {
         isStarted=true;
         infoPanelLook.setStatusBar("Playing...");
         bvi.getMainBoard().start();
+        bvi.repaint();
         startBoardTimer(BOARD_INITIAL_DELAY,BOARD_PERIOD_INTERVAL);
         dbvi.getDropBoard().start();
         dbvi.repaint();
