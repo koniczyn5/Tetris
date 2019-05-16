@@ -1,6 +1,5 @@
 package com.model;
 
-import com.controller.Main_controller;
 import com.model.Shape.Tetrominoe;
 
 public class MainBoard {
@@ -12,17 +11,17 @@ public class MainBoard {
     private int curY = 0;
     private Shape curPiece;
     private Tetrominoe[] board;
-    private Main_controller mainController;
-    private int score; //TODO rework
 
-    public MainBoard(Main_controller parent, int board_width, int board_height) {
-        initBoard(parent, board_width, board_height);
+    private boolean isFalling;
+    private boolean isGameOver;
+
+    public MainBoard(int board_width, int board_height) {
+        initBoard(board_width, board_height);
     }
 
-    private void initBoard(Main_controller parent, int board_width, int board_height) {
+    private void initBoard(int board_width, int board_height) {
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=board_height;
-        mainController=parent;
         curPiece = new Shape();
         board = new Tetrominoe[BOARD_WIDTH * BOARD_HEIGHT];
         clearBoard();
@@ -33,12 +32,9 @@ public class MainBoard {
     }
 
     public void start() {
-
-        mainController.setStarted(true);
-        mainController.setFalling(false);
-        score=0;
-        mainController.getInfoPanelLook().setStatusBar("Playing...");
         clearBoard();
+        isFalling=false;
+        isGameOver=false;
     }
 
     public void dropDown() {
@@ -72,24 +68,20 @@ public class MainBoard {
             board[(y * BOARD_WIDTH) + x] = curPiece.getShape();
         }
         removeFullLines();
-        mainController.setFalling(false);
-        if (!mainController.isFalling() && !mainController.isDropping()) { mainController.SpawnNewPiece();
-              }
+        isFalling=false;
     }
 
-    void newPiece(Shape newShape, int newX) {
+    public void newPiece(Shape newShape, int newX) {
 
         curPiece.copyShape(newShape);
         curX = newX;
         curY = BOARD_HEIGHT - 1 + curPiece.minY();
         if (!tryMove(curPiece, curX, curY)) {
             System.out.println("Game over. R to restart");
-            mainController.getInfoPanelLook().setStatusBar("Game over. Press R to restart.");
+            isGameOver=true;
             curPiece.setShape(Tetrominoe.NoShape);
-            mainController.cancelBoardTimer();
-            mainController.setStarted(false);
         }
-        mainController.setFalling(true);
+        isFalling=true;
     }
 
     public boolean tryMove(Shape newPiece, int newX, int newY) {
@@ -107,7 +99,6 @@ public class MainBoard {
         curPiece = newPiece;
         curX = newX;
         curY = newY;
-        mainController.getBvi().repaint();
         return true;
     }
 
@@ -124,7 +115,6 @@ public class MainBoard {
             }
             if (lineIsFull) {
                 ++numFullLines;
-                ++score; //TODO give points for fullLines
                 for (int k = i; k < BOARD_HEIGHT - 1; ++k) {
                     for (int j = 0; j < BOARD_WIDTH; ++j) {
                         board[(k * BOARD_WIDTH) + j] = shapeAt(j, k + 1);
@@ -133,25 +123,8 @@ public class MainBoard {
             }
         }
         if (numFullLines > 0) {
-            mainController.setFalling(false);
             curPiece.setShape(Tetrominoe.NoShape);
-            mainController.getBvi().repaint();
         }
-    }
-
-    public void doGameCycle() {
-
-        update();
-        mainController.getBvi().repaint();
-        mainController.getInfoPanelLook().setScoreBar(score);//TODO rework
-    }
-
-    private void update() {
-
-        if (mainController.isPaused() || mainController.isDropping()) { return; }
-        if (!mainController.isFalling() && !mainController.isDropping()) {
-            mainController.SpawnNewPiece();
-        } else { oneLineDown(); }
     }
 
     public Shape getCurPiece() {
@@ -169,4 +142,10 @@ public class MainBoard {
     public Tetrominoe[] getBoard() {
         return board;
     }
+
+    public boolean isFalling() { return isFalling; }
+
+    public void setFalling(boolean falling) { isFalling = falling; }
+
+    public boolean isGameOver() { return isGameOver; }
 }

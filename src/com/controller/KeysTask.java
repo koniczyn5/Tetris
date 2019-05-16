@@ -34,7 +34,7 @@ public class KeysTask extends TimerTask {
         if (mainController.isPaused()) {
             return;
         }
-        if(mainController.isFalling()) {
+        if(mainBoard.isFalling()) {
             if ((mainController.isInKeys(KeyEvent.VK_A) || mainController.isInKeys(KeyEvent.VK_LEFT))
                 && !mainController.isInKeys(KeyEvent.VK_D) && !mainController.isInKeys(KeyEvent.VK_RIGHT)) {
                 System.out.println("Move Left");
@@ -63,9 +63,10 @@ public class KeysTask extends TimerTask {
                 System.out.println("Drop Down");
                 mainBoard.dropDown();
             }
+            mainController.getBvi().repaint();
             return;
         }
-        if(mainController.isDropping())
+        if(dropBoard.isDropping())
         {
             if ((mainController.isInKeys(KeyEvent.VK_A) || mainController.isInKeys(KeyEvent.VK_LEFT))
                     && !mainController.isInKeys(KeyEvent.VK_D) && !mainController.isInKeys(KeyEvent.VK_RIGHT)) {
@@ -93,10 +94,11 @@ public class KeysTask extends TimerTask {
             }
             if (mainController.isInKeys(KeyEvent.VK_SPACE)) {
                 System.out.println("Drop Down");
-                dropBoard.dropDown();
+                mainController.DropToMainBoard();
                 mainController.cancelCountdownTimer();
                 //TODO Give points for droping earlier
             }
+            mainController.getDbvi().repaint();
         }
     }
 }

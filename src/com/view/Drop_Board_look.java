@@ -1,6 +1,5 @@
 package com.view;
 
-import com.controller.Main_controller;
 import com.model.DropBoard;
 import com.model.Shape;
 
@@ -13,12 +12,12 @@ public class Drop_Board_look extends JPanel implements Drop_Board_view_interface
     private int BOARD_HEIGHT;
     private DropBoard board;
 
-    public Drop_Board_look(Main_controller controller, int board_width)
+    public Drop_Board_look(int board_width)
     {
         setFocusable(true);
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=4;
-        board = new DropBoard(controller,board_width);
+        board = new DropBoard(board_width);
     }
 
     private int squareWidth() {

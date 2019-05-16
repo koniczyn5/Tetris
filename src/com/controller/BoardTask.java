@@ -13,6 +13,6 @@ public class BoardTask extends TimerTask {
     @Override
     public void run() {
 
-        mainController.getBvi().getMainBoard().doGameCycle();
+        mainController.doGameCycle();
     }
 }

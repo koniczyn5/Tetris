@@ -21,7 +21,7 @@ public class CountdownTimerTask extends TimerTask {
         if(timerTime<=0)
         {
             //zrzuc klocek i naloz kare
-            mainController.getDbvi().getDropBoard().dropDown();
+            mainController.DropToMainBoard();
             mainController.cancelCountdownTimer();
             mainController.getTimerLook().SetTime(0);
         }

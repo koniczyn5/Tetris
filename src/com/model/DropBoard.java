@@ -1,6 +1,5 @@
 package com.model;
 
-import com.controller.Main_controller;
 import com.model.Shape.Tetrominoe;
 
 public class DropBoard {
@@ -12,16 +11,16 @@ public class DropBoard {
     private int curY = 0;
     private Shape curPiece;
     private Tetrominoe[] board;
-    private Main_controller mainController;
 
-    public DropBoard(Main_controller controller, int board_width)
+    private boolean isDropping;
+
+    public DropBoard(int board_width)
     {
-        initBoard(controller, board_width);
+        initBoard(board_width);
     }
 
-    private void initBoard(Main_controller controller, int board_width) {
+    private void initBoard(int board_width) {
 
-        mainController= controller;
         curPiece = new Shape();
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=4;
@@ -38,17 +37,14 @@ public class DropBoard {
 
     public void dropDown() {
 
-        mainController.setDropping(false);
-        mainController.getBvi().getMainBoard().newPiece(curPiece,curX);
+        isDropping=false;
         clearBoard();
         curPiece.setShape(Tetrominoe.NoShape);
-        mainController.getDbvi().repaint();
     }
 
     public void start() {
+        isDropping=true;
         clearBoard();
-        mainController.setDropping(true);
-        newPiece();
     }
 
     public boolean tryMove(Shape newPiece, int newX, int newY) {
@@ -66,9 +62,6 @@ public class DropBoard {
         curPiece = newPiece;
         curX = newX;
         curY = newY;
-
-        mainController.getDbvi().repaint();
-
         return true;
     }
 
@@ -77,24 +70,18 @@ public class DropBoard {
         curPiece.setRandomShape();
         curX = (BOARD_WIDTH-1) / 2 + 1;
         curY = BOARD_HEIGHT - 1 + curPiece.minY();
-        mainController.startCountdownTimer(mainController.COUNTDOWN_TIME,mainController.COUNTDOWN_PERIOD_INTERVAL);
+        isDropping=true;
     }
 
-    public Tetrominoe[] getBoard() {
-        return board;
-    }
+    public Tetrominoe[] getBoard() { return board; }
 
-    public Shape getCurPiece() {
-        return curPiece;
-    }
+    public Shape getCurPiece() { return curPiece; }
 
-    public int getCurX() {
-        return curX;
-    }
+    public int getCurX() { return curX; }
 
-    public int getCurY() {
-        return curY;
-    }
+    public int getCurY() { return curY; }
 
     public int getBOARD_HEIGHT() { return BOARD_HEIGHT; }
+
+    public boolean isDropping() { return isDropping; }
 }

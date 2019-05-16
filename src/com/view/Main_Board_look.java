@@ -1,6 +1,5 @@
 package com.view;
 
-import com.controller.Main_controller;
 import com.model.MainBoard;
 import com.model.Shape;
 
@@ -13,12 +12,12 @@ public class Main_Board_look extends JPanel implements Board_view_interface {
     private int BOARD_HEIGHT;
     private MainBoard mainBoard;
 
-    public Main_Board_look(Main_controller parent, int board_width, int board_height)
+    public Main_Board_look(int board_width, int board_height)
     {
         setFocusable(true);
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=board_height;
-        mainBoard = new MainBoard(parent, board_width, board_height);
+        mainBoard = new MainBoard(board_width, board_height);
     }
 
     private int squareWidth() {
