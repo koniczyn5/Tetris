@@ -6,7 +6,7 @@ import com.model.Shape;
 import javax.swing.*;
 import java.awt.*;
 
-public class Drop_Board_look extends JPanel implements Drop_Board_view_interface {
+public class Drop_Board_look extends JPanel implements Board_view_interface {
 
     private int BOARD_WIDTH;
     private int BOARD_HEIGHT;

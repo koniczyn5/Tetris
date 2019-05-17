@@ -1,18 +1,19 @@
 package com.view;
 
+import com.model.Score;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Info_Panel_look extends JPanel {
 
     private JLabel statusBar;
-    private JLabel scoreBar;
+    private Score_look scoreBar;
 
     public Info_Panel_look()
     {
         statusBar=new JLabel("",SwingConstants.CENTER);
-        scoreBar=new JLabel("",SwingConstants.CENTER);
-        scoreBar.setFont(new Font("Sherif",Font.PLAIN,30));
+        scoreBar=new Score_look();
         setLayout(new BorderLayout());
         add(scoreBar, BorderLayout.NORTH);
         add(statusBar, BorderLayout.SOUTH);
@@ -21,8 +22,6 @@ public class Info_Panel_look extends JPanel {
     public void setStatusBar(String text) {
         statusBar.setText(text);
     }
-    public void setScoreBar(int score) {
-        String text="Score: "+ score;
-        scoreBar.setText(text);
-    }
+    public void displayScore() { scoreBar.displayScore(); }
+    public Score getScoreModel() { return scoreBar.getScoreModel(); }
 }

@@ -14,6 +14,7 @@ public class MainBoard {
 
     private boolean isFalling;
     private boolean isGameOver;
+    private int rowsDestroyed;
 
     public MainBoard(int board_width, int board_height) {
         initBoard(board_width, board_height);
@@ -35,6 +36,7 @@ public class MainBoard {
         clearBoard();
         isFalling=false;
         isGameOver=false;
+        rowsDestroyed=0;
     }
 
     public void dropDown() {
@@ -124,6 +126,7 @@ public class MainBoard {
         }
         if (numFullLines > 0) {
             curPiece.setShape(Tetrominoe.NoShape);
+            rowsDestroyed=numFullLines;
         }
     }
 
@@ -145,7 +148,9 @@ public class MainBoard {
 
     public boolean isFalling() { return isFalling; }
 
-    public void setFalling(boolean falling) { isFalling = falling; }
+    public int getRowsDestroyed() { return rowsDestroyed; }
+
+    public void resetRowsDestroyed() { rowsDestroyed=0; }
 
     public boolean isGameOver() { return isGameOver; }
 }

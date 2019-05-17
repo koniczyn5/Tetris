@@ -10,8 +10,7 @@ public class CountdownTimerTask extends TimerTask {
     CountdownTimerTask(Main_controller controller,int timerTime, int accurancy)
     {
         mainController=controller;
-        this.timerTime=timerTime;
-        this.accurancy=accurancy;
+        reset(timerTime,accurancy);
     }
     @Override
     public void run()
@@ -28,7 +27,15 @@ public class CountdownTimerTask extends TimerTask {
         else
         {
             mainController.getTimerLook().SetTime(timerTime);
-            mainController.getDbvi().repaint();
+            mainController.getDropBoardView().repaint();
         }
     }
+
+    public void reset(int timerTime, int accurancy)
+    {
+        this.timerTime=timerTime;
+        this.accurancy=accurancy;
+    }
+
+    public int getTimerTime() { return timerTime; }
 }
