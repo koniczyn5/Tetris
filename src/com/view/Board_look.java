@@ -1,23 +1,23 @@
 package com.view;
 
-import com.model.DropBoard;
+import com.model.Board_interface;
 import com.model.Shape;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Drop_Board_look extends JPanel implements Board_view_interface {
+public class Board_look extends JPanel {
 
     private int BOARD_WIDTH;
     private int BOARD_HEIGHT;
-    private DropBoard board;
+    private Board_interface board;
 
-    public Drop_Board_look(int board_width)
+    public Board_look(Board_interface board)
     {
         setFocusable(true);
-        BOARD_WIDTH=board_width;
-        BOARD_HEIGHT=4;
-        board = new DropBoard(board_width);
+        BOARD_WIDTH=board.getBoardWidth();
+        BOARD_HEIGHT=board.getBoardHeight();
+        this.board = board;
     }
 
     private int squareWidth() {
@@ -31,7 +31,7 @@ public class Drop_Board_look extends JPanel implements Board_view_interface {
     private Shape.Tetrominoe shapeAt(int x, int y) { return board.getBoard()[(y * BOARD_WIDTH) + x];
     }
 
-    public void doDrawing(Graphics g) {
+    private void doDrawing(Graphics g) {
 
         Dimension size = getSize();
         int boardTop = (int) size.getHeight() - BOARD_HEIGHT * squareHeight();
@@ -69,7 +69,7 @@ public class Drop_Board_look extends JPanel implements Board_view_interface {
         doDrawing(g);
     }
 
-    public void drawSquare(Graphics g, int x, int y, Shape.Tetrominoe shape) {
+    private void drawSquare(Graphics g, int x, int y, Shape.Tetrominoe shape) {
 
         Color []colors = {
                 new Color(0, 0, 0), new Color(204, 102, 102),
@@ -94,6 +94,4 @@ public class Drop_Board_look extends JPanel implements Board_view_interface {
                 x + squareWidth() - 1, y + 1);
 
     }
-
-    public DropBoard getDropBoard() {return board;}
 }

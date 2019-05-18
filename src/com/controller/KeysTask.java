@@ -89,14 +89,14 @@ public class KeysTask extends TimerTask {
                     && !isInKeys(KeyEvent.VK_E) && !isInKeys((KeyEvent.VK_PERIOD))) {
                 System.out.println("Rotate Left");
                 Shape rotatedPiece=dropBoard.getCurPiece().rotateLeft();
-                int newY = dropBoard.getBOARD_HEIGHT() - 1 + rotatedPiece.minY();
+                int newY = dropBoard.getBoardHeight() - 1 + rotatedPiece.minY();
                 dropBoard.tryMove(rotatedPiece, dropBoard.getCurX(), newY);
             }
             if ((isInKeys(KeyEvent.VK_E) || isInKeys(KeyEvent.VK_PERIOD))
                     && !isInKeys(KeyEvent.VK_Q) && !isInKeys(KeyEvent.VK_COMMA)) {
                 System.out.println("Rotate Right");
                 Shape rotatedPiece=dropBoard.getCurPiece().rotateRight();
-                int newY = dropBoard.getBOARD_HEIGHT() - 1 + rotatedPiece.minY();
+                int newY = dropBoard.getBoardHeight() - 1 + rotatedPiece.minY();
                 dropBoard.tryMove(rotatedPiece, dropBoard.getCurX(), newY);
             }
             if ((isInKeys(KeyEvent.VK_S) && mainController.isNotInAlreadyPressedKeys(KeyEvent.VK_S)) ||

@@ -37,8 +37,10 @@ public class PunishmentsLogic {
         for(int index=0; index<3; index++)
             if (punishments[index].isActive()) {
                 punishments[index].setCurrentTimeLeft(punishments[index].getCurrentTimeLeft() - timePassed);
-                if (punishments[index].getCurrentTimeLeft() < 0)
+                if (punishments[index].getCurrentTimeLeft() < 0) {
                     punishments[index].setActive(false);
+                    System.out.println("Punish "+index+" ends");
+                }
             }
     }
 
