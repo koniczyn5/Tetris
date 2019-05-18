@@ -2,6 +2,7 @@ package com.controller;
 
 import com.model.DropBoard;
 import com.model.MainBoard;
+import com.model.PunishmentsLogic;
 import com.model.Score;
 import com.view.*;
 
@@ -37,7 +38,7 @@ public class Main_controller extends MultiKeyAdapter {
     private Info_Panel_look infoPanelLook;
     private Score score;
 
-    private PunishmentsManager punishmentsManager;
+    private PunishmentsLogic punishmentsLogic;
     private final int PUNISHMENTS_DURATION=10000;
 
     public Main_controller (Game parent) {
@@ -60,7 +61,7 @@ public class Main_controller extends MultiKeyAdapter {
         timerLook.setSize(200,80);
         timerLook.setLocation(210, 0);
 
-        punishmentsManager=new PunishmentsManager(PUNISHMENTS_DURATION);
+        punishmentsLogic =new PunishmentsLogic(PUNISHMENTS_DURATION);
 
         infoPanelLook=new Info_Panel_look();
         score=infoPanelLook.getScoreModel();
@@ -133,7 +134,7 @@ public class Main_controller extends MultiKeyAdapter {
 
     void doGameCycle()
     {
-        punishmentsManager.updateTimes(BOARD_PERIOD_INTERVAL);
+        punishmentsLogic.updateTimes(BOARD_PERIOD_INTERVAL);
         if(mainBoard.isGameOver()) {gameOver(); return;}
         if (isPaused || dropBoard.isDropping()) return;
         if (!mainBoard.isFalling() && !dropBoard.isDropping())
@@ -177,7 +178,7 @@ public class Main_controller extends MultiKeyAdapter {
 
     DropBoard getDropBoard() { return dropBoard; }
 
-    PunishmentsManager getPunishmentsManager() { return punishmentsManager; }
+    PunishmentsLogic getPunishmentsLogic() { return punishmentsLogic; }
 
     Timer_look getTimerLook() { return timerLook; }
 

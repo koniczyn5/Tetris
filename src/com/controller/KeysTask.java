@@ -2,6 +2,7 @@ package com.controller;
 
 import com.model.DropBoard;
 import com.model.MainBoard;
+import com.model.PunishmentsLogic;
 import com.model.Shape;
 
 import java.awt.event.KeyEvent;
@@ -48,13 +49,13 @@ public class KeysTask extends TimerTask {
                 System.out.println("Move Right");
                 mainBoard.tryMove(mainBoard.getCurPiece(), mainBoard.getCurX() + 1, mainBoard.getCurY());
             }
-            if (!mainController.getPunishmentsManager().checkStatus(PunishmentsManager.PunishmentTypes.noLeftRotation) &&
+            if (!mainController.getPunishmentsLogic().checkStatus(PunishmentsLogic.PunishmentTypes.noLeftRotation) &&
                 (isInKeys(KeyEvent.VK_Q) || isInKeys(KeyEvent.VK_COMMA))
                 && !isInKeys(KeyEvent.VK_E) && !isInKeys((KeyEvent.VK_PERIOD))) {
                 System.out.println("Rotate Left");
                 mainBoard.tryMove(mainBoard.getCurPiece().rotateLeft(), mainBoard.getCurX(), mainBoard.getCurY());
             }
-            if (!mainController.getPunishmentsManager().checkStatus(PunishmentsManager.PunishmentTypes.noRightRotation) &&
+            if (!mainController.getPunishmentsLogic().checkStatus(PunishmentsLogic.PunishmentTypes.noRightRotation) &&
                 (isInKeys(KeyEvent.VK_E) || isInKeys(KeyEvent.VK_PERIOD))
                 && !isInKeys(KeyEvent.VK_Q) && !isInKeys(KeyEvent.VK_COMMA)) {
                 System.out.println("Rotate Right");
