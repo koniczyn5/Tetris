@@ -145,8 +145,11 @@ public class Main_controller extends MultiKeyAdapter {
     }
 
     void cancelCountdownTimer() {
-        int time = countdownTimer.stopTimer();
-        if(time>=0) score.addPointsForTime(time / 1000);
+        float time = countdownTimer.stopTimer();
+        if(time>=0) {
+            score.addPointsForTime(time / 1000);
+            infoPanelLook.displayScore();
+        }
     }
 
     Board_view_interface getMainBoardView() { return mainBoardView; }
