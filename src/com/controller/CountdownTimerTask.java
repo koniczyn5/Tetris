@@ -28,9 +28,9 @@ public class CountdownTimerTask extends TimerTask {
         timerTime-=accurancy;
         if(timerTime<=0)
         {
-            //zrzuc klocek i naloz kare
             mainController.DropToMainBoard();
             mainController.cancelCountdownTimer();
+            mainController.getPunishmentsManager().punish();
             mainController.getTimerLook().SetTime(0);
         }
         else
@@ -43,6 +43,8 @@ public class CountdownTimerTask extends TimerTask {
     void reset()
     {
         timerTime= (int) Math.min(BASE_TIMER_TIME,MIN_TIMER_TIME+BASE_TIMER_TIME/Math.log(blocksDropped));
+        if(mainController.getPunishmentsManager().checkStatus(PunishmentsManager.PunishmentTypes.fasterTimer))
+            timerTime=timerTime/2;
     }
 
     int getTimerTime() { return timerTime; }

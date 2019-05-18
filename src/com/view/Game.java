@@ -7,26 +7,22 @@ import java.awt.*;
 
 //TODO: Reverse order of components DONE
 //TODO: Write Dropping board DONE
-//TODO: Write Info panel, Score logic, Score controller
+//TODO: Write Info panel, Score logic, Score controller DONE
 //TODO: Write punishments and powers
 //TODO: Write Unit tests
-//TODO: Write overtime growth
+//TODO: Write overtime growth DONE
 //TODO: Write Main menu
 //TODO: Rework look
 
 public class Game extends JFrame {
 
-    private final int BOARD_WIDTH = 10;
-    private final int BOARD_HEIGHT = 22;
-
-
-    public Game() {
+    private Game() {
 
         initUI();
     }
 
     private void initUI() {
-        Main_controller controller = new Main_controller(this, BOARD_WIDTH, BOARD_HEIGHT);
+        Main_controller controller = new Main_controller(this);
         controller.start();
         getContentPane().setBackground(Color.darkGray);
         setTitle("Game");

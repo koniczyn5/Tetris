@@ -48,12 +48,14 @@ public class KeysTask extends TimerTask {
                 System.out.println("Move Right");
                 mainBoard.tryMove(mainBoard.getCurPiece(), mainBoard.getCurX() + 1, mainBoard.getCurY());
             }
-            if ((isInKeys(KeyEvent.VK_Q) || isInKeys(KeyEvent.VK_COMMA))
+            if (!mainController.getPunishmentsManager().checkStatus(PunishmentsManager.PunishmentTypes.noLeftRotation) &&
+                (isInKeys(KeyEvent.VK_Q) || isInKeys(KeyEvent.VK_COMMA))
                 && !isInKeys(KeyEvent.VK_E) && !isInKeys((KeyEvent.VK_PERIOD))) {
                 System.out.println("Rotate Left");
                 mainBoard.tryMove(mainBoard.getCurPiece().rotateLeft(), mainBoard.getCurX(), mainBoard.getCurY());
             }
-            if ((isInKeys(KeyEvent.VK_E) || isInKeys(KeyEvent.VK_PERIOD))
+            if (!mainController.getPunishmentsManager().checkStatus(PunishmentsManager.PunishmentTypes.noRightRotation) &&
+                (isInKeys(KeyEvent.VK_E) || isInKeys(KeyEvent.VK_PERIOD))
                 && !isInKeys(KeyEvent.VK_Q) && !isInKeys(KeyEvent.VK_COMMA)) {
                 System.out.println("Rotate Right");
                 mainBoard.tryMove(mainBoard.getCurPiece().rotateRight(), mainBoard.getCurX(), mainBoard.getCurY());

@@ -6,9 +6,9 @@ class CountdownTimer extends Timer {
 
     private CountdownTimerTask task;
 
-    CountdownTimer(Main_controller controller, int time, int interval) {
+    CountdownTimer(Main_controller controller, int time,int minTime, int interval) {
         super(true);
-        task=new CountdownTimerTask(controller, time,1000, interval);
+        task=new CountdownTimerTask(controller, time,minTime, interval);
         scheduleAtFixedRate(task,0,interval);
     }
 

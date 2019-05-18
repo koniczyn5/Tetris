@@ -17,52 +17,68 @@ public class Main_controller extends MultiKeyAdapter {
     private final int BOARD_PERIOD_INTERVAL = 300;
 
     private CountdownTimer countdownTimer;
-    private final int BASE_COUNTDOWN_TIME =2000;
-    private final int COUNTDOWN_PERIOD_INTERVAL =10;
+    private final int BASE_COUNTDOWN_TIME = 2000;
+    private final int MIN_COUNTDOWN_TIMER = 1000;
+    private final int COUNTDOWN_PERIOD_INTERVAL = 10;
+
+    private final int BOARD_WIDTH = 10;
+    private final int BOARD_HEIGHT = 22;
 
     private boolean isStarted = false;
     private boolean isPaused = false;
 
     private Board_view_interface mainBoardView;
     private MainBoard mainBoard;
+
     private Board_view_interface dropBoardView;
     private DropBoard dropBoard;
+
     private Timer_look timerLook;
     private Info_Panel_look infoPanelLook;
     private Score score;
 
-    public Main_controller (Game parent, int board_width, int board_height) {
+    private PunishmentsManager punishmentsManager;
+    private final int PUNISHMENTS_DURATION=10000;
+
+    public Main_controller (Game parent) {
         super();
-        Main_Board_look boardLook=new Main_Board_look(board_width,board_height);
+        Main_Board_look boardLook=new Main_Board_look(BOARD_WIDTH,BOARD_HEIGHT);
         mainBoardView =boardLook;
         mainBoard=boardLook.getMainBoard();
         boardLook.setSize(200,440);
         boardLook.setLocation(0,90);
         boardLook.addKeyListener(this);
-        Drop_Board_look dropBoardLook=new Drop_Board_look(board_width);
+
+        Drop_Board_look dropBoardLook=new Drop_Board_look(BOARD_WIDTH);
         dropBoardView =dropBoardLook;
         dropBoard=dropBoardLook.getDropBoard();
         dropBoardLook.setSize(200,80);
         dropBoardLook.setLocation(0,0);
         dropBoardLook.addKeyListener(this);
+
         timerLook=new Timer_look();
         timerLook.setSize(200,80);
         timerLook.setLocation(210, 0);
+
+        punishmentsManager=new PunishmentsManager(PUNISHMENTS_DURATION);
+
         infoPanelLook=new Info_Panel_look();
         score=infoPanelLook.getScoreModel();
         infoPanelLook.setSize(200, 440);
         infoPanelLook.setLocation(210,90);
+
         parent.add(dropBoardLook);
         parent.add(boardLook);
         parent.add(timerLook);
         parent.add(infoPanelLook);
         initMain();
-        countdownTimer=new CountdownTimer(this, BASE_COUNTDOWN_TIME, COUNTDOWN_PERIOD_INTERVAL);
     }
 
     private void initMain() {
         Timer keysTimer = new Timer(true);
         keysTimer.scheduleAtFixedRate(new KeysTask(this),KEYS_INITIAL_DELAY,KEYS_PERIOD_INTERVAL);
+        countdownTimer=new CountdownTimer(this, BASE_COUNTDOWN_TIME,MIN_COUNTDOWN_TIMER, COUNTDOWN_PERIOD_INTERVAL);
+
     }
 
     public void start() {
@@ -115,13 +131,9 @@ public class Main_controller extends MultiKeyAdapter {
 
     private void cancelBoardTimer() { boardTimer.cancel(); }
 
-    private void startCountdownTimer() {
-        if(mainBoard.isFalling()){return;}
-        countdownTimer.startTimer();
-    }
-
     void doGameCycle()
     {
+        punishmentsManager.updateTimes(BOARD_PERIOD_INTERVAL);
         if(mainBoard.isGameOver()) {gameOver(); return;}
         if (isPaused || dropBoard.isDropping()) return;
         if (!mainBoard.isFalling() && !dropBoard.isDropping())
@@ -144,6 +156,11 @@ public class Main_controller extends MultiKeyAdapter {
         isStarted=false;
     }
 
+    private void startCountdownTimer() {
+        if(mainBoard.isFalling()){return;}
+        countdownTimer.startTimer();
+    }
+
     void cancelCountdownTimer() {
         float time = countdownTimer.stopTimer();
         if(time>=0) {
@@ -159,6 +176,8 @@ public class Main_controller extends MultiKeyAdapter {
     MainBoard getMainBoard() { return mainBoard; }
 
     DropBoard getDropBoard() { return dropBoard; }
+
+    PunishmentsManager getPunishmentsManager() { return punishmentsManager; }
 
     Timer_look getTimerLook() { return timerLook; }
 
