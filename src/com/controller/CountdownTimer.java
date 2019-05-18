@@ -5,26 +5,23 @@ import java.util.Timer;
 class CountdownTimer extends Timer {
 
     private CountdownTimerTask task;
-    private int timerTime;
-    private int accurancy;
 
     CountdownTimer(Main_controller controller, int time, int interval) {
         super(true);
-        timerTime=time;
-        accurancy=interval;
-        task=new CountdownTimerTask(controller, time, interval);
-        scheduleAtFixedRate(task,0,accurancy);
+        task=new CountdownTimerTask(controller, time,1000, interval);
+        scheduleAtFixedRate(task,0,interval);
     }
 
     void startTimer()
     {
-        task.reset(timerTime,accurancy);
+        task.reset();
         task.setActive();
     }
 
     int stopTimer()
     {
         task.deActivate();
+        task.incrementBlocksDropped();
         return task.getTimerTime();
     }
 }

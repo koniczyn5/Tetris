@@ -96,12 +96,13 @@ public class KeysTask extends TimerTask {
                 int newY = dropBoard.getBOARD_HEIGHT() - 1 + rotatedPiece.minY();
                 dropBoard.tryMove(rotatedPiece, dropBoard.getCurX(), newY);
             }
-            if (isInKeys(KeyEvent.VK_SPACE) && mainController.isNotInAlreadyPressedKeys(KeyEvent.VK_SPACE)) {
+            if ((isInKeys(KeyEvent.VK_S) && mainController.isNotInAlreadyPressedKeys(KeyEvent.VK_S)) ||
+                (isInKeys(KeyEvent.VK_DOWN) && mainController.isNotInAlreadyPressedKeys(KeyEvent.VK_DOWN))) {
                 System.out.println("Drop Down");
                 mainController.DropToMainBoard();
                 mainController.cancelCountdownTimer();
-                //TODO Give points for droping earlier
-                mainController.addToAlreadyPressedKeys(KeyEvent.VK_SPACE);
+                if(isInKeys(KeyEvent.VK_S)) mainController.addToAlreadyPressedKeys(KeyEvent.VK_S);
+                if(isInKeys(KeyEvent.VK_DOWN)) mainController.addToAlreadyPressedKeys(KeyEvent.VK_DOWN);
             }
             mainController.getDropBoardView().repaint();
         }

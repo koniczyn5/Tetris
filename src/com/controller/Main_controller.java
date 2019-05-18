@@ -17,7 +17,7 @@ public class Main_controller extends MultiKeyAdapter {
     private final int BOARD_PERIOD_INTERVAL = 300;
 
     private CountdownTimer countdownTimer;
-    private final int COUNTDOWN_TIME =2000;
+    private final int BASE_COUNTDOWN_TIME =2000;
     private final int COUNTDOWN_PERIOD_INTERVAL =10;
 
     private boolean isStarted = false;
@@ -57,7 +57,7 @@ public class Main_controller extends MultiKeyAdapter {
         parent.add(timerLook);
         parent.add(infoPanelLook);
         initMain();
-        countdownTimer=new CountdownTimer(this, COUNTDOWN_TIME, COUNTDOWN_PERIOD_INTERVAL);
+        countdownTimer=new CountdownTimer(this, BASE_COUNTDOWN_TIME, COUNTDOWN_PERIOD_INTERVAL);
     }
 
     private void initMain() {
@@ -96,7 +96,7 @@ public class Main_controller extends MultiKeyAdapter {
     private void SpawnNewPiece()
     {
         dropBoard.newPiece();
-        startCountdownTimer(COUNTDOWN_TIME,COUNTDOWN_PERIOD_INTERVAL);
+        startCountdownTimer();
         dropBoardView.repaint();
     }
 
@@ -115,7 +115,7 @@ public class Main_controller extends MultiKeyAdapter {
 
     private void cancelBoardTimer() { boardTimer.cancel(); }
 
-    private void startCountdownTimer(int time, int periodInterval) {
+    private void startCountdownTimer() {
         if(mainBoard.isFalling()){return;}
         countdownTimer.startTimer();
     }
@@ -162,11 +162,7 @@ public class Main_controller extends MultiKeyAdapter {
 
     Timer_look getTimerLook() { return timerLook; }
 
-    Score getScoreModel() { return score; }
-
     boolean isStarted() { return isStarted; }
 
     boolean isPaused() { return isPaused; }
-
-    int getDropTime() {return 0; }
 }
