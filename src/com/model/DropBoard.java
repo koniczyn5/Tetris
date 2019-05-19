@@ -2,7 +2,7 @@ package com.model;
 
 import com.model.Shape.Tetrominoe;
 
-public class DropBoard {
+public class DropBoard implements Board_interface {
 
     private int BOARD_WIDTH;
     private int BOARD_HEIGHT;
@@ -81,7 +81,9 @@ public class DropBoard {
 
     public int getCurY() { return curY; }
 
-    public int getBOARD_HEIGHT() { return BOARD_HEIGHT; }
+    public int getBoardHeight() { return BOARD_HEIGHT; }
+
+    public int getBoardWidth() { return BOARD_WIDTH; }
 
     public boolean isDropping() { return isDropping; }
 }

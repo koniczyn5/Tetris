@@ -2,8 +2,10 @@ package com.view;
 
 import com.controller.Main_controller;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 //TODO: Reverse order of components DONE
 //TODO: Write Dropping board DONE
@@ -26,6 +28,12 @@ public class Game extends JFrame {
         controller.start();
         getContentPane().setBackground(Color.darkGray);
         setTitle("Game");
+        try {
+            setIconImage(ImageIO.read(getClass().getResource("/images/logo.png")));
+        }
+        catch (IOException e) {
+        System.exit(1);
+        }
         setSize(425, 570);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

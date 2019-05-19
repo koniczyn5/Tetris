@@ -2,8 +2,12 @@ package com.controller;
 
 import com.model.DropBoard;
 import com.model.MainBoard;
+import com.model.PunishmentsLogic;
 import com.model.Score;
-import com.view.*;
+import com.view.Board_look;
+import com.view.Game;
+import com.view.Info_Panel_look;
+import com.view.Timer_look;
 
 import java.util.Timer;
 
@@ -27,31 +31,31 @@ public class Main_controller extends MultiKeyAdapter {
     private boolean isStarted = false;
     private boolean isPaused = false;
 
-    private Board_view_interface mainBoardView;
+    private Board_look mainBoardView;
     private MainBoard mainBoard;
 
-    private Board_view_interface dropBoardView;
+    private Board_look dropBoardView;
     private DropBoard dropBoard;
 
     private Timer_look timerLook;
     private Info_Panel_look infoPanelLook;
     private Score score;
 
-    private PunishmentsManager punishmentsManager;
-    private final int PUNISHMENTS_DURATION=10000;
+    private PunishmentsLogic punishmentsLogic;
+    private final int PUNISHMENTS_DURATION=5000;
 
     public Main_controller (Game parent) {
         super();
-        Main_Board_look boardLook=new Main_Board_look(BOARD_WIDTH,BOARD_HEIGHT);
-        mainBoardView =boardLook;
-        mainBoard=boardLook.getMainBoard();
+        mainBoard = new MainBoard(BOARD_WIDTH,BOARD_HEIGHT);
+        Board_look boardLook = new Board_look(mainBoard);
+        mainBoardView = boardLook;
         boardLook.setSize(200,440);
         boardLook.setLocation(0,90);
         boardLook.addKeyListener(this);
 
-        Drop_Board_look dropBoardLook=new Drop_Board_look(BOARD_WIDTH);
-        dropBoardView =dropBoardLook;
-        dropBoard=dropBoardLook.getDropBoard();
+        dropBoard = new DropBoard(BOARD_WIDTH);
+        Board_look dropBoardLook=new Board_look(dropBoard);
+        dropBoardView = dropBoardLook;
         dropBoardLook.setSize(200,80);
         dropBoardLook.setLocation(0,0);
         dropBoardLook.addKeyListener(this);
@@ -60,9 +64,9 @@ public class Main_controller extends MultiKeyAdapter {
         timerLook.setSize(200,80);
         timerLook.setLocation(210, 0);
 
-        punishmentsManager=new PunishmentsManager(PUNISHMENTS_DURATION);
+        punishmentsLogic =new PunishmentsLogic(PUNISHMENTS_DURATION);
 
-        infoPanelLook=new Info_Panel_look();
+        infoPanelLook=new Info_Panel_look(punishmentsLogic);
         score=infoPanelLook.getScoreModel();
         infoPanelLook.setSize(200, 440);
         infoPanelLook.setLocation(210,90);
@@ -85,6 +89,8 @@ public class Main_controller extends MultiKeyAdapter {
         isStarted=true;
         infoPanelLook.setStatusBar("Playing...");
         score.start();
+        punishmentsLogic.start();
+        countdownTimer.start();
         infoPanelLook.displayScore();
         mainBoard.start();
         mainBoardView.repaint();
@@ -133,7 +139,7 @@ public class Main_controller extends MultiKeyAdapter {
 
     void doGameCycle()
     {
-        punishmentsManager.updateTimes(BOARD_PERIOD_INTERVAL);
+        punishmentsLogic.updateTimes(BOARD_PERIOD_INTERVAL);
         if(mainBoard.isGameOver()) {gameOver(); return;}
         if (isPaused || dropBoard.isDropping()) return;
         if (!mainBoard.isFalling() && !dropBoard.isDropping())
@@ -147,6 +153,7 @@ public class Main_controller extends MultiKeyAdapter {
         }
         else mainBoard.oneLineDown();
         mainBoardView.repaint();
+        infoPanelLook.updateGrid();
     }
 
     private void gameOver()
@@ -169,15 +176,15 @@ public class Main_controller extends MultiKeyAdapter {
         }
     }
 
-    Board_view_interface getMainBoardView() { return mainBoardView; }
+    Board_look getMainBoardView() { return mainBoardView; }
 
-    Board_view_interface getDropBoardView() { return dropBoardView; }
+    Board_look getDropBoardView() { return dropBoardView; }
 
     MainBoard getMainBoard() { return mainBoard; }
 
     DropBoard getDropBoard() { return dropBoard; }
 
-    PunishmentsManager getPunishmentsManager() { return punishmentsManager; }
+    PunishmentsLogic getPunishmentsLogic() { return punishmentsLogic; }
 
     Timer_look getTimerLook() { return timerLook; }
 

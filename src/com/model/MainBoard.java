@@ -2,10 +2,10 @@ package com.model;
 
 import com.model.Shape.Tetrominoe;
 
-public class MainBoard {
+public class MainBoard implements Board_interface {
 
-    private int BOARD_WIDTH;
-    private int BOARD_HEIGHT;
+    private final int BOARD_WIDTH;
+    private final int BOARD_HEIGHT;
 
     private int curX = 0;
     private int curY = 0;
@@ -17,12 +17,12 @@ public class MainBoard {
     private int rowsDestroyed;
 
     public MainBoard(int board_width, int board_height) {
-        initBoard(board_width, board_height);
-    }
-
-    private void initBoard(int board_width, int board_height) {
         BOARD_WIDTH=board_width;
         BOARD_HEIGHT=board_height;
+        initBoard();
+    }
+
+    private void initBoard() {
         curPiece = new Shape();
         board = new Tetrominoe[BOARD_WIDTH * BOARD_HEIGHT];
         clearBoard();
@@ -145,6 +145,10 @@ public class MainBoard {
     public Tetrominoe[] getBoard() {
         return board;
     }
+
+    public int getBoardHeight() { return BOARD_HEIGHT; }
+
+    public int getBoardWidth() { return BOARD_WIDTH; }
 
     public boolean isFalling() { return isFalling; }
 

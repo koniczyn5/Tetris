@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.model.PunishmentsLogic;
+
 import java.util.TimerTask;
 
 public class CountdownTimerTask extends TimerTask {
@@ -15,9 +17,14 @@ public class CountdownTimerTask extends TimerTask {
     {
         BASE_TIMER_TIME=startingTimerTime;
         MIN_TIMER_TIME=minTimerTime;
-        timerTime=BASE_TIMER_TIME;
         this.accurancy=accurancy;
         mainController=controller;
+        start();
+    }
+
+    void start()
+    {
+        timerTime=BASE_TIMER_TIME;
         isActive=false;
         blocksDropped=1;
     }
@@ -30,7 +37,7 @@ public class CountdownTimerTask extends TimerTask {
         {
             mainController.DropToMainBoard();
             mainController.cancelCountdownTimer();
-            mainController.getPunishmentsManager().punish();
+            mainController.getPunishmentsLogic().punish();
             mainController.getTimerLook().SetTime(0);
         }
         else
@@ -43,7 +50,7 @@ public class CountdownTimerTask extends TimerTask {
     void reset()
     {
         timerTime= (int) Math.min(BASE_TIMER_TIME,MIN_TIMER_TIME+BASE_TIMER_TIME/Math.log(blocksDropped));
-        if(mainController.getPunishmentsManager().checkStatus(PunishmentsManager.PunishmentTypes.fasterTimer))
+        if(mainController.getPunishmentsLogic().checkStatus(PunishmentsLogic.PunishmentTypes.fasterTimer))
             timerTime=timerTime/2;
     }
 
