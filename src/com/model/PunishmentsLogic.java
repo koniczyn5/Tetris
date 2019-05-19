@@ -12,14 +12,17 @@ public class PunishmentsLogic {
 
     public PunishmentsLogic(int punishmentDuration) {
         PUNISHMENT_DURATION=punishmentDuration;
-        punishments= new Punishment[]{new Punishment(0, 40, new ImageIcon("/images/noLeftRotation.png")),
-                                      new Punishment(40,80, new ImageIcon("/images/noRightRotation.png")),
+        punishments= new Punishment[]{new Punishment(0, 40, new ImageIcon(getClass().getResource("/images/noLeftRotation.png"))),
+                                      new Punishment(40,80, new ImageIcon(getClass().getResource("/images/noRightRotation.png"))),
                                       new Punishment(80,100, new ImageIcon(getClass().getResource("/images/feather.png")))};
     }
 
     public void start()
     {
-        for (int index=0; index<3; index++) punishments[index].setActive(false);
+        for (int index=0; index<3; index++) {
+            punishments[index].setActive(false);
+            punishments[index].setCurrentTimeLeft(0);
+        }
     }
 
     public void punish() {

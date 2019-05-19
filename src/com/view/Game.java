@@ -27,7 +27,7 @@ public class Game extends JFrame {
         Main_controller controller = new Main_controller(this);
         controller.start();
         getContentPane().setBackground(Color.darkGray);
-        setTitle("Game");
+        setTitle("Tetris: redone");
         try {
             setIconImage(ImageIO.read(getClass().getResource("/images/logo.png")));
         }

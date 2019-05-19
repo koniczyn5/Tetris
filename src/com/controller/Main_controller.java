@@ -42,7 +42,7 @@ public class Main_controller extends MultiKeyAdapter {
     private Score score;
 
     private PunishmentsLogic punishmentsLogic;
-    private final int PUNISHMENTS_DURATION=5000;
+    private final int PUNISHMENTS_DURATION=10000;
 
     public Main_controller (Game parent) {
         super();
@@ -139,9 +139,11 @@ public class Main_controller extends MultiKeyAdapter {
 
     void doGameCycle()
     {
-        punishmentsLogic.updateTimes(BOARD_PERIOD_INTERVAL);
         if(mainBoard.isGameOver()) {gameOver(); return;}
-        if (isPaused || dropBoard.isDropping()) return;
+        if (isPaused) return;
+        punishmentsLogic.updateTimes(BOARD_PERIOD_INTERVAL);
+        infoPanelLook.updateGrid();
+        if(dropBoard.isDropping()) return;
         if (!mainBoard.isFalling() && !dropBoard.isDropping())
         {
             if(mainBoard.getRowsDestroyed()!=0) {
@@ -153,7 +155,6 @@ public class Main_controller extends MultiKeyAdapter {
         }
         else mainBoard.oneLineDown();
         mainBoardView.repaint();
-        infoPanelLook.updateGrid();
     }
 
     private void gameOver()
