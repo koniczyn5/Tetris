@@ -66,7 +66,7 @@ public class Main_controller extends MultiKeyAdapter {
 
         punishmentsLogic =new PunishmentsLogic(PUNISHMENTS_DURATION);
 
-        infoPanelLook=new Info_Panel_look();
+        infoPanelLook=new Info_Panel_look(punishmentsLogic);
         score=infoPanelLook.getScoreModel();
         infoPanelLook.setSize(200, 440);
         infoPanelLook.setLocation(210,90);
@@ -89,6 +89,8 @@ public class Main_controller extends MultiKeyAdapter {
         isStarted=true;
         infoPanelLook.setStatusBar("Playing...");
         score.start();
+        punishmentsLogic.start();
+        countdownTimer.start();
         infoPanelLook.displayScore();
         mainBoard.start();
         mainBoardView.repaint();
@@ -151,6 +153,7 @@ public class Main_controller extends MultiKeyAdapter {
         }
         else mainBoard.oneLineDown();
         mainBoardView.repaint();
+        infoPanelLook.updateGrid();
     }
 
     private void gameOver()

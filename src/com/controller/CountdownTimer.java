@@ -12,6 +12,11 @@ class CountdownTimer extends Timer {
         scheduleAtFixedRate(task,0,interval);
     }
 
+    void start()
+    {
+        task.start();
+    }
+
     void startTimer()
     {
         task.reset();

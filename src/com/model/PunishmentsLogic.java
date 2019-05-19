@@ -12,9 +12,14 @@ public class PunishmentsLogic {
 
     public PunishmentsLogic(int punishmentDuration) {
         PUNISHMENT_DURATION=punishmentDuration;
-        punishments= new Punishment[]{new Punishment(0, 40, new ImageIcon("src/images/noLeftRotation.png")),
-                                      new Punishment(40,80, new ImageIcon("src/images/noRightRotation.png")),
-                                      new Punishment(80,100, new ImageIcon("src/images/feather.png"))};
+        punishments= new Punishment[]{new Punishment(0, 40, new ImageIcon("/images/noLeftRotation.png")),
+                                      new Punishment(40,80, new ImageIcon("/images/noRightRotation.png")),
+                                      new Punishment(80,100, new ImageIcon(getClass().getResource("/images/feather.png")))};
+    }
+
+    public void start()
+    {
+        for (int index=0; index<3; index++) punishments[index].setActive(false);
     }
 
     public void punish() {
@@ -45,6 +50,7 @@ public class PunishmentsLogic {
     }
 
     public boolean checkStatus(PunishmentTypes punishmentType) { return punishments[punishmentType.ordinal()].isActive(); }
+
 
     public int getTimeLeft(PunishmentTypes punishmentType) { return punishments[punishmentType.ordinal()].getCurrentTimeLeft();}
 

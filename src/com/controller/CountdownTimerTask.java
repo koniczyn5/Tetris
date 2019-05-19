@@ -17,9 +17,14 @@ public class CountdownTimerTask extends TimerTask {
     {
         BASE_TIMER_TIME=startingTimerTime;
         MIN_TIMER_TIME=minTimerTime;
-        timerTime=BASE_TIMER_TIME;
         this.accurancy=accurancy;
         mainController=controller;
+        start();
+    }
+
+    void start()
+    {
+        timerTime=BASE_TIMER_TIME;
         isActive=false;
         blocksDropped=1;
     }
