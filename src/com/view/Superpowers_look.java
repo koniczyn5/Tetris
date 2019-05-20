@@ -4,14 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Superpowers_look extends JPanel {
-    private JLabel titleBar;
     private JLabel textBar;
 
     Superpowers_look(ImageIcon image, String Title){
         setLayout(new BorderLayout(5,5));
         textBar=new JLabel("",SwingConstants.CENTER);
         textBar.setFont(new Font("", Font.PLAIN,9));
-        titleBar = new JLabel();
+        JLabel titleBar = new JLabel();
+        titleBar.setFont(new Font("",Font.BOLD,11));
         titleBar.setText(Title);
         JLabel picture=new JLabel(image);
         add(titleBar, BorderLayout.NORTH);

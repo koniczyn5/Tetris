@@ -28,10 +28,6 @@ public class MainBoard implements Board_interface {
         clearBoard();
     }
 
-    private Tetrominoe shapeAt(int x, int y) {
-        return board[(y * BOARD_WIDTH) + x];
-    }
-
     public void start() {
         clearBoard();
         isFalling=false;
@@ -40,26 +36,13 @@ public class MainBoard implements Board_interface {
     }
 
     public void dropDown() {
-
         int newY = curY;
 
         while (newY > 0) {
-            if (!tryMove(curPiece, curX, newY - 1)) { break; }
+            if (!tryMove(curPiece, curX, newY - 1)) break;
             --newY;
         }
         pieceDropped();
-    }
-
-    public void oneLineDown() {
-
-        if (!tryMove(curPiece, curX, curY - 1)) { pieceDropped(); }
-    }
-
-    public void clearBoard() {
-
-        for (int i = 0; i < BOARD_HEIGHT * BOARD_WIDTH; ++i) {
-            board[i] = Tetrominoe.NoShape;
-        }
     }
 
     private void pieceDropped() {
@@ -123,6 +106,12 @@ public class MainBoard implements Board_interface {
         }
         if (numFullLines > 0) rowsDestroyed = numFullLines;
     }
+
+    private Tetrominoe shapeAt(int x, int y) { return board[(y * BOARD_WIDTH) + x]; }
+
+    public void oneLineDown() { if (!tryMove(curPiece, curX, curY - 1)) pieceDropped(); }
+
+    public void clearBoard() { for (int i = 0; i < BOARD_HEIGHT * BOARD_WIDTH; ++i) board[i] = Tetrominoe.NoShape; }
 
     public Shape getCurPiece() {
         return curPiece;

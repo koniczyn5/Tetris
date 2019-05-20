@@ -13,8 +13,8 @@ public class SuperpowersLogic {
     public SuperpowersLogic(int superpowersDuration) {
         SUPERPOWER_DURATION=superpowersDuration;
         NUMBER_OF_SUPERPOWERS=2;
-        superpowers= new Superpower[]{new Superpower(30000, new ImageIcon(getClass().getResource("/images/bomb.png")),"Clear board"),
-                     new Superpower(10000, new ImageIcon(getClass().getResource("/images/iceCube.png")),"Slowdown timer")};
+        superpowers= new Superpower[]{new Superpower(30000, new ImageIcon(getClass().getResource("/images/bomb.png")),"[1] Clear board"),
+                     new Superpower(10000, new ImageIcon(getClass().getResource("/images/iceCube.png")),"[2] Slowdown timer")};
     }
 
     public void start()
