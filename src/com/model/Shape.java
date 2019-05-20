@@ -10,18 +10,18 @@ public class Shape {
     private Tetrominoe pieceShape;
     private int [][] coordinates;
     private final int[][][] coordinatesTable=new int[][][] {
-            { { 0, 0 },   { 0, 0 },   { 0, 0 },   { 0, 0 } },
-            { { 0, -1 },  { 0, 0 },   { -1, 0 },  { -1, 1 } },
-            { { 0, -1 },  { 0, 0 },   { 1, 0 },   { 1, 1 } },
-            { { 0, -1 },  { 0, 0 },   { 0, 1 },   { 0, 2 } },
-            { { -1, 0 },  { 0, 0 },   { 1, 0 },   { 0, 1 } },
-            { { 0, 0 },   { 1, 0 },   { 0, 1 },   { 1, 1 } },
-            { { -1, -1 }, { 0, -1 },  { 0, 0 },   { 0, 1 } },
-            { { 1, -1 },  { 0, -1 },  { 0, 0 },   { 0, 1 } }
+            { { 0, 0 },   { 0, 0 },   { 0, 0 },   { 0, 0 } },//NoShpae
+            { { 0, -1 },  { 0, 0 },   { -1, 0 },  { -1, 1 } },//ZShape
+            { { 0, -1 },  { 0, 0 },   { 1, 0 },   { 1, 1 } },//SShape
+            { { 0, -1 },  { 0, 0 },   { 0, 1 },   { 0, 2 } },//LineShape
+            { { -1, 0 },  { 0, 0 },   { 1, 0 },   { 0, 1 } },//TShape
+            { { 0, 0 },   { 1, 0 },   { 0, 1 },   { 1, 1 } },//SquareShape
+            { { -1, -1 }, { 0, -1 },  { 0, 0 },   { 0, 1 } },//LShape
+            { { 1, -1 },  { 0, -1 },  { 0, 0 },   { 0, 1 } }//MirroredLShape
     };
 
 
-    Shape() { initShape(); }
+    public Shape() { initShape(); }
 
     private void initShape() {
 
@@ -29,7 +29,7 @@ public class Shape {
         setShape(Tetrominoe.NoShape);
     }
 
-    void setShape(Tetrominoe shape) {
+    public void setShape(Tetrominoe shape) {
 
         for (int i = 0; i < 4 ; i++) {
             for (int j = 0; j < 2; ++j) {
@@ -39,7 +39,7 @@ public class Shape {
         pieceShape = shape;
     }
 
-    void copyShape(Shape shape) {
+    public void copyShape(Shape shape) {
 
         for (int i = 0; i < 4 ; i++) {
                 coordinates[i][0] = shape.x(i);
