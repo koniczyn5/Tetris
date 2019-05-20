@@ -54,6 +54,6 @@ public class Grid_look extends JPanel {
         for(int index=0; index<punishmentsLogic.getNUMBER_OF_PUNISHMENTS(); index++)
             punishmentLooks[index].updateBar(punishmentsLogic.getTimeLeft(punishmentTypes[index]));
         for(int index=0; index<superpowersLogic.getNUMBER_OF_SUPERPOWERS(); index++)
-            superpowersLooks[index].updateBar(superpowersLogic.getTimeLeft(superpowerTypes[index]),superpowersLogic.getPrice(superpowerTypes[index]));
+            superpowersLooks[index].updateBar(superpowersLogic.getTimeLeft(superpowerTypes[index]),(int) superpowersLogic.getPrice(superpowerTypes[index]));
     }
 }

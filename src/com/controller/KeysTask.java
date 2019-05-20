@@ -40,7 +40,8 @@ public class KeysTask extends TimerTask {
             if(mainController.getSuperpowersLogic().activateSuperpower(SuperpowersLogic.SuperpowerTypes.clearBoard,mainController.getScore().getScore()))
             {
                 mainBoard.clearBoard();
-                mainController.getScore().removePoints(mainController.getSuperpowersLogic().getPrice(SuperpowersLogic.SuperpowerTypes.clearBoard));
+                mainController.getMainBoardView().repaint();
+                mainController.getScore().removePoints((int) mainController.getSuperpowersLogic().getPrice(SuperpowersLogic.SuperpowerTypes.clearBoard));
                 mainController.getInfoPanelLook().displayScore();
             }
             mainController.addToAlreadyPressedKeys(KeyEvent.VK_1);
@@ -49,7 +50,7 @@ public class KeysTask extends TimerTask {
         {
             if(mainController.getSuperpowersLogic().activateSuperpower(SuperpowersLogic.SuperpowerTypes.slowerTimer,mainController.getScore().getScore()))
             {
-                mainController.getScore().removePoints(mainController.getSuperpowersLogic().getPrice(SuperpowersLogic.SuperpowerTypes.slowerTimer));
+                mainController.getScore().removePoints((int) mainController.getSuperpowersLogic().getPrice(SuperpowersLogic.SuperpowerTypes.slowerTimer));
                 mainController.getInfoPanelLook().displayScore();
             }
             mainController.addToAlreadyPressedKeys(KeyEvent.VK_2);

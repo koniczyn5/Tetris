@@ -13,15 +13,14 @@ public class SuperpowersLogic {
     public SuperpowersLogic(int superpowersDuration) {
         SUPERPOWER_DURATION=superpowersDuration;
         NUMBER_OF_SUPERPOWERS=2;
-        superpowers= new Superpower[]{new Superpower(30000, new ImageIcon(getClass().getResource("/images/bomb.png")),"Clear board"),
+        superpowers= new Superpower[]{new Superpower(3, new ImageIcon(getClass().getResource("/images/bomb.png")),"Clear board"),
                      new Superpower(10000, new ImageIcon(getClass().getResource("/images/iceCube.png")),"Slowdown timer")};
     }
 
     public void start()
     {
         for (int index=0; index<NUMBER_OF_SUPERPOWERS; index++) {
-            superpowers[index].setActive(false);
-            superpowers[index].setCurrentTimeLeft(0);
+            superpowers[index].start();
         }
     }
 
@@ -50,6 +49,7 @@ public class SuperpowersLogic {
                     superpowers[superpowerType.ordinal()].setCurrentTimeLeft(SUPERPOWER_DURATION);
                 }
             }
+            superpowers[superpowerType.ordinal()].increasePrice();
             return true;
         }
         return false;
@@ -63,7 +63,7 @@ public class SuperpowersLogic {
 
     public String getTitle(SuperpowersLogic.SuperpowerTypes superpowerType) { return superpowers[superpowerType.ordinal()].getTitle(); }
 
-    public int getPrice(SuperpowersLogic.SuperpowerTypes superpowerType) { return superpowers[superpowerType.ordinal()].getPrice();}
+    public float getPrice(SuperpowersLogic.SuperpowerTypes superpowerType) { return superpowers[superpowerType.ordinal()].getPrice();}
 
     public int getNUMBER_OF_SUPERPOWERS() { return NUMBER_OF_SUPERPOWERS; }
 }

@@ -10,7 +10,7 @@ public class Shape {
     private Tetrominoe pieceShape;
     private int [][] coordinates;
     private final int[][][] coordinatesTable=new int[][][] {
-            { { 0, 0 },   { 0, 0 },   { 0, 0 },   { 0, 0 } },//NoShpae
+            { { 0, 0 },   { 0, 0 },   { 0, 0 },   { 0, 0 } },//NoShape
             { { 0, -1 },  { 0, 0 },   { -1, 0 },  { -1, 1 } },//ZShape
             { { 0, -1 },  { 0, 0 },   { 1, 0 },   { 1, 1 } },//SShape
             { { 0, -1 },  { 0, 0 },   { 0, 1 },   { 0, 2 } },//LineShape
