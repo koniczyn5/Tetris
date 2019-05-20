@@ -55,7 +55,7 @@ public class MainBoard implements Board_interface {
         if (!tryMove(curPiece, curX, curY - 1)) { pieceDropped(); }
     }
 
-    private void clearBoard() {
+    public void clearBoard() {
 
         for (int i = 0; i < BOARD_HEIGHT * BOARD_WIDTH; ++i) {
             board[i] = Tetrominoe.NoShape;

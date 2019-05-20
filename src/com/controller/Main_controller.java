@@ -1,9 +1,6 @@
 package com.controller;
 
-import com.model.DropBoard;
-import com.model.MainBoard;
-import com.model.PunishmentsLogic;
-import com.model.Score;
+import com.model.*;
 import com.view.Board_look;
 import com.view.Game;
 import com.view.Info_Panel_look;
@@ -44,6 +41,9 @@ public class Main_controller extends MultiKeyAdapter {
     private PunishmentsLogic punishmentsLogic;
     private final int PUNISHMENTS_DURATION=10000;
 
+    private SuperpowersLogic superpowersLogic;
+    private final int SUPERPOWERS_DURATION=15000;
+
     public Main_controller (Game parent) {
         super();
         mainBoard = new MainBoard(BOARD_WIDTH,BOARD_HEIGHT);
@@ -54,19 +54,20 @@ public class Main_controller extends MultiKeyAdapter {
         boardLook.addKeyListener(this);
 
         dropBoard = new DropBoard(BOARD_WIDTH);
-        Board_look dropBoardLook=new Board_look(dropBoard);
+        Board_look dropBoardLook = new Board_look(dropBoard);
         dropBoardView = dropBoardLook;
         dropBoardLook.setSize(200,80);
         dropBoardLook.setLocation(0,0);
         dropBoardLook.addKeyListener(this);
 
-        timerLook=new Timer_look();
+        timerLook = new Timer_look();
         timerLook.setSize(200,80);
         timerLook.setLocation(210, 0);
 
-        punishmentsLogic =new PunishmentsLogic(PUNISHMENTS_DURATION);
+        punishmentsLogic = new PunishmentsLogic(PUNISHMENTS_DURATION);
+        superpowersLogic = new SuperpowersLogic(SUPERPOWERS_DURATION);
 
-        infoPanelLook=new Info_Panel_look(punishmentsLogic);
+        infoPanelLook = new Info_Panel_look(punishmentsLogic, superpowersLogic);
         score=infoPanelLook.getScoreModel();
         infoPanelLook.setSize(200, 440);
         infoPanelLook.setLocation(210,90);
@@ -142,6 +143,7 @@ public class Main_controller extends MultiKeyAdapter {
         if(mainBoard.isGameOver()) {gameOver(); return;}
         if (isPaused) return;
         punishmentsLogic.updateTimes(BOARD_PERIOD_INTERVAL);
+        superpowersLogic.updateTimes(BOARD_PERIOD_INTERVAL);
         infoPanelLook.updateGrid();
         if(dropBoard.isDropping()) return;
         if (!mainBoard.isFalling() && !dropBoard.isDropping())
@@ -187,7 +189,13 @@ public class Main_controller extends MultiKeyAdapter {
 
     PunishmentsLogic getPunishmentsLogic() { return punishmentsLogic; }
 
+    SuperpowersLogic getSuperpowersLogic() { return superpowersLogic; }
+
     Timer_look getTimerLook() { return timerLook; }
+
+    Score getScore() { return  score; }
+
+    Info_Panel_look getInfoPanelLook() { return infoPanelLook; }
 
     boolean isStarted() { return isStarted; }
 

@@ -1,9 +1,6 @@
 package com.controller;
 
-import com.model.DropBoard;
-import com.model.MainBoard;
-import com.model.PunishmentsLogic;
-import com.model.Shape;
+import com.model.*;
 
 import java.awt.event.KeyEvent;
 import java.util.TimerTask;
@@ -37,6 +34,25 @@ public class KeysTask extends TimerTask {
         }
         if (mainController.isPaused()) {
             return;
+        }
+        if(isInKeys(KeyEvent.VK_1) && mainController.isNotInAlreadyPressedKeys(KeyEvent.VK_1))
+        {
+            if(mainController.getSuperpowersLogic().activateSuperpower(SuperpowersLogic.SuperpowerTypes.clearBoard,mainController.getScore().getScore()))
+            {
+                mainBoard.clearBoard();
+                mainController.getScore().removePoints(mainController.getSuperpowersLogic().getPrice(SuperpowersLogic.SuperpowerTypes.clearBoard));
+                mainController.getInfoPanelLook().displayScore();
+            }
+            mainController.addToAlreadyPressedKeys(KeyEvent.VK_1);
+        }
+        if(isInKeys(KeyEvent.VK_2) && mainController.isNotInAlreadyPressedKeys(KeyEvent.VK_2))
+        {
+            if(mainController.getSuperpowersLogic().activateSuperpower(SuperpowersLogic.SuperpowerTypes.slowerTimer,mainController.getScore().getScore()))
+            {
+                mainController.getScore().removePoints(mainController.getSuperpowersLogic().getPrice(SuperpowersLogic.SuperpowerTypes.slowerTimer));
+                mainController.getInfoPanelLook().displayScore();
+            }
+            mainController.addToAlreadyPressedKeys(KeyEvent.VK_2);
         }
         if(mainBoard.isFalling()) {
             if ((isInKeys(KeyEvent.VK_A) || isInKeys(KeyEvent.VK_LEFT))
