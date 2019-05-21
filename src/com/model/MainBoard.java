@@ -28,10 +28,6 @@ public class MainBoard implements Board_interface {
         clearBoard();
     }
 
-    private Tetrominoe shapeAt(int x, int y) {
-        return board[(y * BOARD_WIDTH) + x];
-    }
-
     public void start() {
         clearBoard();
         isFalling=false;
@@ -40,26 +36,13 @@ public class MainBoard implements Board_interface {
     }
 
     public void dropDown() {
-
         int newY = curY;
 
         while (newY > 0) {
-            if (!tryMove(curPiece, curX, newY - 1)) { break; }
+            if (!tryMove(curPiece, curX, newY - 1)) break;
             --newY;
         }
         pieceDropped();
-    }
-
-    public void oneLineDown() {
-
-        if (!tryMove(curPiece, curX, curY - 1)) { pieceDropped(); }
-    }
-
-    private void clearBoard() {
-
-        for (int i = 0; i < BOARD_HEIGHT * BOARD_WIDTH; ++i) {
-            board[i] = Tetrominoe.NoShape;
-        }
     }
 
     private void pieceDropped() {
@@ -70,6 +53,7 @@ public class MainBoard implements Board_interface {
             board[(y * BOARD_WIDTH) + x] = curPiece.getShape();
         }
         removeFullLines();
+        curPiece.setShape(Tetrominoe.NoShape);
         isFalling=false;
     }
 
@@ -109,26 +93,25 @@ public class MainBoard implements Board_interface {
         int numFullLines = 0;
         for (int i = BOARD_HEIGHT - 1; i >= 0; --i) {
             boolean lineIsFull = true;
-            for (int j = 0; j < BOARD_WIDTH; ++j) {
+            for (int j = 0; j < BOARD_WIDTH; ++j)
                 if (shapeAt(j, i) == Tetrominoe.NoShape) {
                     lineIsFull = false;
                     break;
                 }
-            }
             if (lineIsFull) {
                 ++numFullLines;
-                for (int k = i; k < BOARD_HEIGHT - 1; ++k) {
-                    for (int j = 0; j < BOARD_WIDTH; ++j) {
-                        board[(k * BOARD_WIDTH) + j] = shapeAt(j, k + 1);
-                    }
-                }
+                for (int k = i; k < BOARD_HEIGHT - 1; ++k)
+                    for (int j = 0; j < BOARD_WIDTH; ++j) board[(k * BOARD_WIDTH) + j] = shapeAt(j, k + 1);
             }
         }
-        if (numFullLines > 0) {
-            curPiece.setShape(Tetrominoe.NoShape);
-            rowsDestroyed=numFullLines;
-        }
+        if (numFullLines > 0) rowsDestroyed = numFullLines;
     }
+
+    private Tetrominoe shapeAt(int x, int y) { return board[(y * BOARD_WIDTH) + x]; }
+
+    public void oneLineDown() { if (!tryMove(curPiece, curX, curY - 1)) pieceDropped(); }
+
+    public void clearBoard() { for (int i = 0; i < BOARD_HEIGHT * BOARD_WIDTH; ++i) board[i] = Tetrominoe.NoShape; }
 
     public Shape getCurPiece() {
         return curPiece;

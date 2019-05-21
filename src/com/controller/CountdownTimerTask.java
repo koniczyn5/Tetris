@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.model.PunishmentsLogic;
+import com.model.SuperpowersLogic;
 
 import java.util.TimerTask;
 
@@ -52,6 +53,8 @@ public class CountdownTimerTask extends TimerTask {
         timerTime= (int) Math.min(BASE_TIMER_TIME,MIN_TIMER_TIME+BASE_TIMER_TIME/Math.log(blocksDropped));
         if(mainController.getPunishmentsLogic().checkStatus(PunishmentsLogic.PunishmentTypes.fasterTimer))
             timerTime=timerTime/2;
+        if(mainController.getSuperpowersLogic().checkStatus(SuperpowersLogic.SuperpowerTypes.slowerTimer))
+            timerTime=timerTime*2;
     }
 
     int getTimerTime() { return timerTime; }
